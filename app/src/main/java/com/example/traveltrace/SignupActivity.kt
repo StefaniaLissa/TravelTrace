@@ -65,12 +65,10 @@ class SignupActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     // Fin Ruedita
-
                     //Registrar en BD
                     val user = hashMapOf(
-                        "email" to et_email.text.toString(),
-                        "name" to et_name.text.toString(),
-                        "password" to et_password.text.toString(),
+                        "email" to email,
+                        "name" to passw,
                         "verify" to false
                     )
 
