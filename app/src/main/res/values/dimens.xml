@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_touch_min">8sp</dimen>
+    <dimen name="padding_touch_min">8sp</dimen>
+    <dimen name="padding_ll_std">20sp</dimen>
+    <dimen name="touch_min">48sp</dimen>
+    <dimen name="font_std">18sp</dimen>
+    <dimen name="title_20">20sp</dimen>
+</resources>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="top"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_ll_std">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/margin_touch_min">
+
+            <ImageView
+                android:id="@+id/P_imagen"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:background="@drawable/circular"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_person" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_touch_min"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/touch_min"
+                    android:layout_margin="@dimen/margin_touch_min"
+                    android:text="@string/name"
+                    android:textSize="@dimen/title_20" />
+
+                <TextView
+                    android:id="@+id/tv_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/touch_min"
+                    android:layout_margin="@dimen/margin_touch_min"
+                    android:text="@string/email"
+                    android:textSize="@dimen/title_20" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_verify"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/touch_min"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:gravity="center"
+            android:text="@string/verify"
+            android:textSize="@dimen/title_20" />
+
+        <TextView
+            android:id="@+id/tv_online"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/touch_min"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:drawableEnd="@drawable/baseline_check_box"
+            android:gravity="center"
+            android:text="Viajes Públicos"
+            android:textSize="@dimen/title_20" />
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/touch_min"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:gravity="center"
+            android:text="@string/logout"
+            android:textSize="@dimen/font_std" />
+
+    </LinearLayout>
+
+
+</FrameLayout>

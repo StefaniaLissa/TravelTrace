@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "570556988880",
+    "project_id": "travel-trace-6d33f",
+    "storage_bucket": "travel-trace-6d33f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:570556988880:android:5e807ab977626961920dd5",
+        "android_client_info": {
+          "package_name": "com.example.traveltrace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "570556988880-q7t572saj32nrfpb5mpqu87qurdia8ld.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.traveltrace",
+            "certificate_hash": "7029cb793c7df1f259109909e3acf0859bfb757d"
+          }
+        },
+        {
+          "client_id": "570556988880-7htc1na0n04gee1emurc4j6gi2pr9b85.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeq_3F6Z-wfMmrMZdrw8kmAE1GTYFkuPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "570556988880-7htc1na0n04gee1emurc4j6gi2pr9b85.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

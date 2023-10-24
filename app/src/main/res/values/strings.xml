@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">TravelTrace</string>
+    <string name="traveltrace">TravelTrace</string>
+    <!--    Inicio de Sesión-->
+    <string name="email">Correo Electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Iniciar Sesión</string>
+    <string name="login_google">Iniciar Sesión con Google</string>
+    <string name="signup">Registrarse</string>
+    <string name="forgot">Recuperar contraseña</string>
+    <string name="re_password">Repetir contraseña</string>
+    <string name="name">Nombre</string>
+    <string name="signup_google">Registrarse con Google</string>
+    <!--    NavBar-->
+    <string name="profile">Perfil</string>
+    <string name="home">Home</string>
+    <string name="explore">Explorar</string>
+    <string name="logout">Cerrar Sesión</string>
+    <string name="toRecover">Ingrese su correo electrónico para recuperar su contraseña. Se le enviará un correo</string>
+    <string name="recover">Enviar</string>
+    <string name="wrong">credenciales incorrectas</string>
+    <string name="wrong_email">No existe ningún usuario registrado con ese email</string>
+    <string name="sended">Email enviado</string>
+    <string name="empty_email">Correo Electrónico Inválido</string>
+    <string name="verify">Estado de verificación Email</string>
+</resources>

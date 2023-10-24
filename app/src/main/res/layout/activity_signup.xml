@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignupActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_ll_std">
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/touch_min"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:autofillHints="true"
+            android:drawableStart="@drawable/baseline_email"
+            android:drawablePadding="@dimen/padding_ll_std"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/font_std" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/touch_min"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:autofillHints="true"
+            android:drawableStart="@drawable/baseline_person"
+            android:drawablePadding="@dimen/padding_ll_std"
+            android:hint="@string/name"
+            android:inputType="text"
+            android:textSize="@dimen/font_std" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:autofillHints="true"
+                android:drawableStart="@drawable/baseline_lock"
+                android:drawablePadding="@dimen/padding_ll_std"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textSize="@dimen/font_std" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true">
+
+            <EditText
+                android:id="@+id/et_re_password"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:autofillHints="true"
+                android:drawableStart="@drawable/baseline_lock"
+                android:drawablePadding="@dimen/padding_ll_std"
+                android:hint="@string/re_password"
+                android:inputType="textPassword"
+                android:textSize="@dimen/font_std" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/signup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/touch_min"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:text="@string/signup"
+            android:textSize="@dimen/font_std" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
