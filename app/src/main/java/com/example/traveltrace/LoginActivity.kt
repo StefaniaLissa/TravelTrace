@@ -56,9 +56,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login(email: String, passw: String) {
-        if (email.isEmpty() or passw.isEmpty()) {
-            //Credenciales invalidas
-            alert()
+        if (!isEmailValid(email)) {
+            alert(getString(R.string.wrong_email))
+        } else if (!isPasswValid(passw)) {
+            alert(getString(R.string.wrong_passw))
         } else {
             //Ini Ruedita de carga
             auth.signInWithEmailAndPassword(email, passw).addOnCompleteListener { task ->
@@ -70,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
             }.addOnFailureListener { e ->
                 // Fin Ruedita
                 if (e.message?.contains("INVALID_LOGIN_CREDENTIALS") == true) {
-                    alert()
+                    alert(getString(R.string.wrong_login))
                 } else {
                     Toast.makeText(applicationContext, e.message, Toast.LENGTH_SHORT).show()
                 }
@@ -151,9 +152,21 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun alert() {
+    fun isEmailValid(email: String): Boolean {
+        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
+        return email.matches(emailRegex.toRegex())
+    }
+
+    private fun isPasswValid(passw: String): Boolean {
+        // Mínimo 8 char, una minúscula, una mayúscula, un número
+        val passwRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}\$"
+        return passw.matches(passwRegex.toRegex())
+    }
+
+    private fun alert(text: String) {
         val animation = AlphaAnimation(0f, 1f)
         animation.duration = 4000
+        tv_alert.setText(text)
         tv_alert.startAnimation(animation)
         tv_alert.setVisibility(View.VISIBLE)
         val animation2 = AlphaAnimation(1f, 0f)

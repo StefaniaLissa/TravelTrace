@@ -19,8 +19,11 @@
     <string name="toRecover">Ingrese su correo electrónico para recuperar su contraseña. Se le enviará un correo</string>
     <string name="recover">Enviar</string>
     <string name="wrong">credenciales incorrectas</string>
-    <string name="wrong_email">No existe ningún usuario registrado con ese email</string>
+    <string name="wrong_email_recover">No existe ningún usuario registrado con ese email</string>
     <string name="sended">Email enviado</string>
     <string name="empty_email">Correo Electrónico Inválido</string>
     <string name="verify">Estado de verificación Email</string>
+    <string name="wrong_login">CREDENCIALES INCORRECTAS</string>
+    <string name="wrong_email">Email Invalido</string>
+    <string name="wrong_passw">Contraseña Invalida</string>
 </resources>

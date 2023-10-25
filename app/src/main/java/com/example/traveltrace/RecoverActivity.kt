@@ -1,18 +1,14 @@
 package com.example.traveltrace
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import com.google.android.material.button.MaterialButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -42,7 +38,7 @@ class RecoverActivity : AppCompatActivity() {
                     .whereEqualTo("email", email)
                     .get().addOnSuccessListener { documents ->
                         if (documents.isEmpty) { // No existe ningún usuario registrado con ese email
-                            alert(getString(R.string.wrong_email))
+                            alert(getString(R.string.wrong_email_recover))
                         } else { // Existe un usuario con ese correo electrónico
                             // Enviar correo de recuperación
                             auth.sendPasswordResetEmail(email)

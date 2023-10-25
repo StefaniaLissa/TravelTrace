@@ -29,7 +29,6 @@
             android:drawableStart="@drawable/baseline_email"
             android:drawablePadding="@dimen/padding_ll_std"
             android:hint="@string/email"
-            android:inputType="textEmailAddress"
             android:textSize="@dimen/font_std" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -46,7 +45,6 @@
                 android:drawableStart="@drawable/baseline_person"
                 android:drawablePadding="@dimen/padding_ll_std"
                 android:hint="@string/password"
-                android:inputType="textPassword"
                 android:textSize="@dimen/font_std" />
         </com.google.android.material.textfield.TextInputLayout>
 
