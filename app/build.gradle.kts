@@ -94,6 +94,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
 //    implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
 
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
