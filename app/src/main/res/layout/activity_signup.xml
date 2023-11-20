@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignupActivity">
+    tools:context=".view.login.SignupActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,8 +19,9 @@
             android:layout_height="@dimen/touch_min"
             android:layout_margin="@dimen/margin_touch_min"
             android:autofillHints="true"
-            android:drawableStart="@drawable/baseline_email"
+            android:drawableStart="@drawable/ic_email"
             android:drawablePadding="@dimen/padding_ll_std"
+            android:drawableTint="@color/white"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:textSize="@dimen/font_std" />
@@ -31,8 +32,9 @@
             android:layout_height="@dimen/touch_min"
             android:layout_margin="@dimen/margin_touch_min"
             android:autofillHints="true"
-            android:drawableStart="@drawable/baseline_person"
+            android:drawableStart="@drawable/ic_person"
             android:drawablePadding="@dimen/padding_ll_std"
+            android:drawableTint="@color/white"
             android:hint="@string/name"
             android:inputType="text"
             android:textSize="@dimen/font_std" />
@@ -48,8 +50,9 @@
                 android:layout_height="@dimen/touch_min"
                 android:layout_margin="@dimen/margin_touch_min"
                 android:autofillHints="true"
-                android:drawableStart="@drawable/baseline_lock"
+                android:drawableStart="@drawable/ic_lock"
                 android:drawablePadding="@dimen/padding_ll_std"
+                android:drawableTint="@color/white"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:textSize="@dimen/font_std" />
@@ -66,12 +69,27 @@
                 android:layout_height="@dimen/touch_min"
                 android:layout_margin="@dimen/margin_touch_min"
                 android:autofillHints="true"
-                android:drawableStart="@drawable/baseline_lock"
+                android:drawableStart="@drawable/ic_lock"
                 android:drawablePadding="@dimen/padding_ll_std"
+                android:drawableTint="@color/white"
                 android:hint="@string/re_password"
                 android:inputType="textPassword"
                 android:textSize="@dimen/font_std" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_touch_min"
+            android:layout_marginEnd="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:text="@string/wrong"
+            android:textSize="@dimen/font_std"
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/signup"

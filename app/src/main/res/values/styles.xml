@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="notVerfy" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/font_std</item>
+        <item name="android:textColor">@color/teal_200</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

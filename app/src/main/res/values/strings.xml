@@ -15,15 +15,29 @@
     <string name="profile">Perfil</string>
     <string name="home">Home</string>
     <string name="explore">Explorar</string>
+    <!--   EL RESTO -->
     <string name="logout">Cerrar Sesión</string>
     <string name="toRecover">Ingrese su correo electrónico para recuperar su contraseña. Se le enviará un correo</string>
     <string name="recover">Enviar</string>
-    <string name="wrong">credenciales incorrectas</string>
+    <string name="wrong">Credenciales Incorrectas</string>
     <string name="wrong_email_recover">No existe ningún usuario registrado con ese email</string>
     <string name="sended">Email enviado</string>
     <string name="empty_email">Correo Electrónico Inválido</string>
     <string name="verify">Estado de verificación Email</string>
-    <string name="wrong_login">CREDENCIALES INCORRECTAS</string>
+    <string name="notVerify">Verificar Email</string>
+    <string name="wrong_login">Credenciales Incorrectas</string>
     <string name="wrong_email">Email Invalido</string>
     <string name="wrong_passw">Contraseña Invalida</string>
+    <string name="repete">Repita la contraseña</string>
+    <string name="passw_dont_match">Las contraseñas no coinciden</string>
+    <string name="signup_user_name">Ingrese nombre de usuario</string>
+    <string name="change_passw">Cambiar Contraseña</string>
+    <string name="new_password">Nueva Contraseña</string>
+    <string name="save">Guardar</string>
+    <string name="title_activity_detailed_trip">DetailedTripActivity</string>
+    <string name="actual_password">Contraseña Actual</string>
+    <string name="next">Continuar</string>
+    <string name="wait">Espere por favor</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

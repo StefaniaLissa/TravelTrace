@@ -6,4 +6,6 @@
     <dimen name="touch_min">48sp</dimen>
     <dimen name="font_std">18sp</dimen>
     <dimen name="title_20">20sp</dimen>
+    <dimen name="timestamp_font">15sp</dimen>
+    <dimen name="rv_items">4dp</dimen>
 </resources>

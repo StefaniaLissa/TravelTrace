@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecoverActivity">
+    tools:context=".view.login.RecoverActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:layout_height="@dimen/touch_min"
             android:layout_margin="@dimen/margin_touch_min"
             android:autofillHints="true"
-            android:drawableStart="@drawable/baseline_email"
+            android:drawableStart="@drawable/ic_email"
             android:drawablePadding="@dimen/padding_ll_std"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
@@ -47,7 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_touch_min"
             android:layout_marginEnd="@dimen/margin_touch_min"
-            android:background="@color/material_dynamic_primary30"
+            android:background="@color/white"
+            android:textColor="@color/black"
             android:gravity="center"
             android:textSize="@dimen/font_std"
             android:textStyle="bold"

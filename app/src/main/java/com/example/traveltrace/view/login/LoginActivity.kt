@@ -1,8 +1,8 @@
-package com.example.traveltrace
+package com.example.traveltrace.view.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.util.Patterns
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.Button
@@ -11,6 +11,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.example.traveltrace.R
+import com.example.traveltrace.view.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -138,12 +140,14 @@ class LoginActivity : AppCompatActivity() {
         val user = hashMapOf(
             "email" to email,
             "name" to name,
-            "verify" to true
+            "public" to true,
+            "googleProvieded" to true
         )
 
         // Agregar a la colección con nuevo ID
         db.collection("users")
-            .add(user)
+            .document(auth.currentUser!!.uid)
+            .set(user)
             .addOnSuccessListener {
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
             }
@@ -153,10 +157,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun isEmailValid(email: String): Boolean {
-        val emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
-        return email.matches(emailRegex.toRegex())
+        //Sin puntos iniciales, finales o consecutivos
+        //val emailRegex = "^[A-Z0-9_!#\$%&'*+/=?`{|}~^-]+(?:\\.[A-Z0-9_!#\$%&'*+/=?`{|}~^-]+↵\n)*@[A-Z0-9-]+(?:\\.[A-Z0-9-]+)*\$"
+        //email.matches(emailRegex.toRegex())
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
-
     private fun isPasswValid(passw: String): Boolean {
         // Mínimo 8 char, una minúscula, una mayúscula, un número
         val passwRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}\$"

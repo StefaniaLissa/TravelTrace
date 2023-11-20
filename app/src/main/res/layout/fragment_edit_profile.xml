@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#303030"
+    tools:context=".view.profile.EditProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_cover"
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:background="@color/white"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_cover_travel_trace" />
+
+        <ImageView
+            android:id="@+id/iv_imagen"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="-80dp"
+            android:background="#FEFEFE"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_travel_trace" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/padding_ll_std"
+            android:paddingEnd="@dimen/padding_ll_std">
+
+            <Button
+                android:id="@+id/btn_new_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:layout_marginLeft="@dimen/margin_touch_min"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="@dimen/margin_touch_min"
+                android:layout_marginBottom="@dimen/margin_touch_min"
+                android:text="EDITAR FOTO DE PERFIL"
+                android:textSize="@dimen/font_std" />
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:autofillHints="true"
+                android:drawableStart="@drawable/ic_person"
+                android:drawablePadding="@dimen/padding_ll_std"
+                android:drawableTint="@color/white"
+                android:hint="@string/name"
+                android:inputType="text"
+                android:textSize="@dimen/font_std" />
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:autofillHints="true"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="@dimen/padding_ll_std"
+                android:drawableTint="@color/white"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:textSize="@dimen/font_std" />
+
+            <TextView
+                android:id="@+id/tv_alert"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_touch_min"
+                android:layout_marginEnd="@dimen/margin_touch_min"
+                android:background="@color/white"
+                android:gravity="center"
+                android:text="@string/wrong"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_std"
+                android:textStyle="bold"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:text="@string/save"
+                android:textSize="@dimen/font_std" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

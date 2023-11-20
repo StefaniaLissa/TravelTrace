@@ -1,8 +1,10 @@
-package com.example.traveltrace
+package com.example.traveltrace.view.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.traveltrace.R
+import com.example.traveltrace.view.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class SplashActivity : AppCompatActivity() {

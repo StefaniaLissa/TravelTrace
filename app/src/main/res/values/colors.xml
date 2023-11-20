@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="splash_screen">#FFFFFFFF</color>
     <color name="green_light">#D5E8D4</color>
+    <color name="light_green">#B4CE7F</color>
 </resources>

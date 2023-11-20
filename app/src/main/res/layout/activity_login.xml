@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".view.login.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
             android:layout_height="300sp"
             android:layout_marginTop="-20dp"
             android:contentDescription="@string/traveltrace"
-            android:src="@drawable/ic_travel_trace_foreground" />
+            android:src="@drawable/icon_travel_trace" />
 
         <EditText
             android:id="@+id/et_email"
@@ -26,7 +26,7 @@
             android:layout_height="@dimen/touch_min"
             android:layout_margin="@dimen/margin_touch_min"
             android:autofillHints="true"
-            android:drawableStart="@drawable/baseline_email"
+            android:drawableStart="@drawable/ic_email"
             android:drawablePadding="@dimen/padding_ll_std"
             android:hint="@string/email"
             android:textSize="@dimen/font_std" />
@@ -42,7 +42,7 @@
                 android:layout_height="@dimen/touch_min"
                 android:layout_margin="@dimen/margin_touch_min"
                 android:autofillHints="true"
-                android:drawableStart="@drawable/baseline_person"
+                android:drawableStart="@drawable/ic_person"
                 android:drawablePadding="@dimen/padding_ll_std"
                 android:hint="@string/password"
                 android:textSize="@dimen/font_std" />
@@ -54,8 +54,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_touch_min"
             android:layout_marginEnd="@dimen/margin_touch_min"
-            android:background="@color/material_dynamic_primary30"
+            android:background="@color/white"
             android:gravity="center"
+            android:textColor="@color/black"
             android:text="@string/wrong"
             android:textSize="@dimen/font_std"
             android:textStyle="bold"
@@ -83,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/touch_min"
             android:layout_margin="@dimen/margin_touch_min"
-            android:drawableStart="@drawable/login_google"
+            android:drawableStart="@drawable/ic_login_google"
             android:text="@string/login_google"
             android:textSize="@dimen/font_std" />
 
