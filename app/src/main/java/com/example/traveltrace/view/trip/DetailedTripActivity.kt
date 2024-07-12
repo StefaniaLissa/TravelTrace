@@ -50,7 +50,9 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
         viewModel = ViewModelProvider(this).get(TripViewModel::class.java)
         viewModel.loadTrip(trip)
         viewModel.trip.observe(this, Observer {
-            toolbar.title = it.name.toString()
+            if (it != null) {
+                toolbar.title = it.name.toString()
+            }
         })
 
         setSupportActionBar(toolbar)
@@ -138,7 +140,14 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
 
         }
         if (id == R.id.edit){
-
+            val fragment = EditTripFragment()
+            val bundle = Bundle()
+            bundle.putString("trip", trip)
+            fragment.arguments = bundle
+            supportFragmentManager.beginTransaction()
+                .add(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit()
         }
         return true
     }

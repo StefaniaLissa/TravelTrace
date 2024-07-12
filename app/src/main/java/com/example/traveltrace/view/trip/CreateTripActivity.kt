@@ -20,6 +20,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveltrace.R
@@ -28,6 +29,7 @@ import com.example.traveltrace.viewmodel.StopViewModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 
@@ -44,7 +46,9 @@ class CreateTripActivity : AppCompatActivity() {
     private lateinit var btn_create: Button
     private lateinit var db: FirebaseFirestore
     private var uri: Uri? = null
+    private var uriString: String? = null
     private lateinit var user: FirebaseUser
+    private lateinit var tripId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -101,11 +105,12 @@ class CreateTripActivity : AppCompatActivity() {
                             ).show()
                         }
                     // Guardar Cover
-                    if (uri != null) {
+                    if (uriString  != null) {
                         //Save Image in Firebase Store
-                        val path = "TripCover/" + documentReference.id
-                        val referenceStorage = FirebaseStorage.getInstance().getReference(path)
-                        referenceStorage.putFile(uri!!)
+                        tripId = documentReference.id
+                        val rutaImagen = "TripCover/"+tripId+"/"+System.currentTimeMillis()
+                        val referenceStorage = FirebaseStorage.getInstance().getReference(rutaImagen)
+                        referenceStorage.putFile(uriString!!.toUri()!!)
                             .addOnSuccessListener { task ->
                                 val uriTask: Task<Uri> = task.storage.downloadUrl
                                 while (!uriTask.isSuccessful);
@@ -172,8 +177,8 @@ class CreateTripActivity : AppCompatActivity() {
 
     private fun UpdateFirestore(url: String) {
         FirebaseFirestore.getInstance()
-            .collection("users")
-            .document(user.uid!!)
+            .collection("trips")
+            .document(tripId)
             .update("image", url)
             .addOnFailureListener { e ->
                 Toast.makeText(
@@ -240,7 +245,9 @@ class CreateTripActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK) {
                 val data = result.data
                 uri = data!!.data
+                uriString = data.clipData!!.getItemAt(0).uri.toString()
                 iv_cover.setImageURI(uri)
+
             } else {
                 Toast.makeText(applicationContext, "Cancelado por el usuario", Toast.LENGTH_SHORT)
                     .show()
@@ -273,5 +280,6 @@ class CreateTripActivity : AppCompatActivity() {
         btn_create = findViewById(R.id.btn_create)
         db = FirebaseFirestore.getInstance()
         user = FirebaseAuth.getInstance().currentUser!!
+        uriString = String()
     }
 }

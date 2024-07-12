@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="#303030"
     android:layout_gravity="center"
-
     tools:context=".view.trip.AlbumFragment">
 
     <androidx.recyclerview.widget.RecyclerView
