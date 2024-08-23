@@ -67,6 +67,7 @@ class CreateStopActivity : AppCompatActivity() {
     private lateinit var layoutManager: GridLayoutManager
     private lateinit var imagesList: ArrayList<String>
 
+    private lateinit var etPlace: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,12 +89,10 @@ class CreateStopActivity : AppCompatActivity() {
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, apiKey)
         }
-
-
         // Initialize Autocomplete Fragments
         // from the main activity layout file
         val autocompleteSupportFragment1 = supportFragmentManager.findFragmentById(R.id.fg_autocomplete) as AutocompleteSupportFragment?
-// Information that we wish to fetch after typing
+        // Information that we wish to fetch after typing
         // the location and clicking on one of the options
         autocompleteSupportFragment1!!.setPlaceFields(
             listOf(
@@ -108,10 +107,8 @@ class CreateStopActivity : AppCompatActivity() {
 
             )
         )
-
         // Display the fetched information after clicking on one of the options
         autocompleteSupportFragment1.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-
             override fun onPlaceSelected(place: Place) {
 
                 // Information about the place
@@ -136,14 +133,11 @@ class CreateStopActivity : AppCompatActivity() {
                         "Rating: $rating \nUser ratings: $userRatings"
             }
 
-
             override fun onError(status: Status) {
                 Toast.makeText(applicationContext,"Some error occurred", Toast.LENGTH_SHORT).show()
             }
 
         })
-
-
 
 
         //Images
@@ -356,6 +350,10 @@ class CreateStopActivity : AppCompatActivity() {
         adapter = ImageAdapter(imagesList)
         rv_images.layoutManager = layoutManager
         rv_images.adapter = adapter
+
+
+//        etPlace = findViewById(R.id.fg_autocomplete)
+//        etPlace.setHintTextColor(getColor(R.color.white))
     }
 
 }

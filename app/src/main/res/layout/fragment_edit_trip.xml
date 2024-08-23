@@ -76,7 +76,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_create"
+        android:id="@+id/btn_update"
         android:layout_width="match_parent"
         android:layout_height="@dimen/touch_min"
         android:layout_margin="@dimen/margin_touch_min"

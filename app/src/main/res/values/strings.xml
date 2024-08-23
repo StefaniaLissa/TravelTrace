@@ -39,4 +39,17 @@
     <string name="next">Continuar</string>
     <string name="wait">Espere por favor</string>
     <string name="seleccionar_ubicacion">Seleccionar Ubicación</string>
+    <string name="agregar_contenido_multimedia">Agregar contenido Multimedia:</string>
+    <string name="gasto">Gasto</string>
+    <string name="crear">Crear</string>
+    <string name="a">A:</string>
+    <string name="de">De:</string>
+    <string name="vuelo">Vuelo</string>
+    <string name="monto">Monto</string>
+    <string name="categor_a">Categoría:</string>
+    <string name="notas">Notas...</string>
+    <string name="camara">Camara</string>
+    <string name="galer_a">Galería</string>
+    <string name="hora">Hora</string>
+    <string name="nombre_el_punto_de_inter_s">Nombre del Punto de Interés</string>
 </resources>
