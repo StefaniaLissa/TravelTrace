@@ -3,6 +3,7 @@ package com.example.traveltrace.view.stop
 import android.Manifest
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +28,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveltrace.R
 import com.example.traveltrace.view.adapters.ImageAdapter
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.tasks.Task
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -54,7 +60,7 @@ class CreateStopActivity : AppCompatActivity() {
     private lateinit var ll_alert: LinearLayout
     private lateinit var tv_alert: TextView
     private lateinit var fab_done: FloatingActionButton
-    private lateinit var db : FirebaseFirestore
+    private lateinit var db: FirebaseFirestore
     private var uri: Uri? = null
 
     private lateinit var adapter: ImageAdapter
@@ -71,11 +77,81 @@ class CreateStopActivity : AppCompatActivity() {
         val id = intent.getStringExtra("trip").toString()
 
 
+        // Recuperar API KEY
+        val ai: ApplicationInfo? = applicationContext.packageManager
+            ?.getApplicationInfo(
+                applicationContext.packageName.toString(),
+                PackageManager.GET_META_DATA
+            )
+        val apiKey = ai?.metaData?.get("com.google.android.geo.API_KEY").toString()
+
+        if (!Places.isInitialized()) {
+            Places.initialize(applicationContext, apiKey)
+        }
+
+
+        // Initialize Autocomplete Fragments
+        // from the main activity layout file
+        val autocompleteSupportFragment1 = supportFragmentManager.findFragmentById(R.id.fg_autocomplete) as AutocompleteSupportFragment?
+// Information that we wish to fetch after typing
+        // the location and clicking on one of the options
+        autocompleteSupportFragment1!!.setPlaceFields(
+            listOf(
+
+                Place.Field.NAME,
+                Place.Field.ADDRESS,
+                Place.Field.PHONE_NUMBER,
+                Place.Field.LAT_LNG,
+                Place.Field.OPENING_HOURS,
+                Place.Field.RATING,
+                Place.Field.USER_RATINGS_TOTAL
+
+            )
+        )
+
+        // Display the fetched information after clicking on one of the options
+        autocompleteSupportFragment1.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+
+            override fun onPlaceSelected(place: Place) {
+
+                // Information about the place
+                val name = place.name
+                val address = place.address
+                val phone = place.phoneNumber
+                val latlng = place.latLng
+                val latitude = latlng?.latitude
+                val longitude = latlng?.longitude
+
+                val isOpenStatus : String = if(place.isOpen == true){
+                    "Open"
+                } else {
+                    "Closed"
+                }
+
+                val rating = place.rating
+                val userRatings = place.userRatingsTotal
+
+                val text = "Name: $name \nAddress: $address \nPhone Number: $phone \n" +
+                        "Latitude, Longitude: $latitude , $longitude \nIs open: $isOpenStatus \n" +
+                        "Rating: $rating \nUser ratings: $userRatings"
+            }
+
+
+            override fun onError(status: Status) {
+                Toast.makeText(applicationContext,"Some error occurred", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
+
+
 
         //Images
         btn_gallery.setOnClickListener {
-            if (ContextCompat.checkSelfPermission( applicationContext,
-                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+            if (ContextCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
             ) {
                 openGallery()
             } else {
@@ -83,8 +159,10 @@ class CreateStopActivity : AppCompatActivity() {
             }
         }
         btn_camera.setOnClickListener {
-            if (ContextCompat.checkSelfPermission( applicationContext,
-                    Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+            if (ContextCompat.checkSelfPermission(
+                    applicationContext,
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
             ) {
                 openCamera()
             } else {
@@ -111,18 +189,24 @@ class CreateStopActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     //Subir a Storage
-                    if(imagesList!= null){
-                        for(uri in imagesList){
-                            val rutaImagen = "Stop_Image/"+id+"/"+documentReference.id+"/"+System.currentTimeMillis()
-                            val referenceStorage = FirebaseStorage.getInstance().getReference(rutaImagen)
-                            referenceStorage.putFile(uri.toUri()!!).addOnSuccessListener { tarea->
-                                val uriTarea : Task<Uri> = tarea.storage.downloadUrl
+                    if (imagesList != null) {
+                        for (uri in imagesList) {
+                            val rutaImagen =
+                                "Stop_Image/" + id + "/" + documentReference.id + "/" + System.currentTimeMillis()
+                            val referenceStorage =
+                                FirebaseStorage.getInstance().getReference(rutaImagen)
+                            referenceStorage.putFile(uri.toUri()!!).addOnSuccessListener { tarea ->
+                                val uriTarea: Task<Uri> = tarea.storage.downloadUrl
                                 while (!uriTarea.isSuccessful);
                                 val url = "${uriTarea.result}"
                                 UpdateFirestore(url, documentReference.id)
 
-                            }.addOnFailureListener{e->
-                                Toast.makeText(applicationContext, "No se ha podido subir la imagen debido a: ${e.message}",Toast.LENGTH_SHORT).show()
+                            }.addOnFailureListener { e ->
+                                Toast.makeText(
+                                    applicationContext,
+                                    "No se ha podido subir la imagen debido a: ${e.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                     }
@@ -177,7 +261,6 @@ class CreateStopActivity : AppCompatActivity() {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         cameraActivityResultLauncher.launch(intent)
     }
-
 
 
     private val galleryPermission =
@@ -248,7 +331,6 @@ class CreateStopActivity : AppCompatActivity() {
 
     private fun init() {
         et_name = findViewById(R.id.et_name)
-        sv_ubi = findViewById(R.id.sv_ubi)
         et_description = findViewById(R.id.et_description)
         cb_expenses = findViewById(R.id.cb_expenses)
         ll_expenses = findViewById(R.id.ll_expenses)
@@ -270,7 +352,7 @@ class CreateStopActivity : AppCompatActivity() {
         db = FirebaseFirestore.getInstance()
 
         imagesList = ArrayList()
-        layoutManager = GridLayoutManager (this,3)
+        layoutManager = GridLayoutManager(this, 3)
         adapter = ImageAdapter(imagesList)
         rv_images.layoutManager = layoutManager
         rv_images.adapter = adapter

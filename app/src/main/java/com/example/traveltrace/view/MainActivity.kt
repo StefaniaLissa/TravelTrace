@@ -20,11 +20,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Load Home
+        //Load Home Fragment
         replaceFragment(HomeFragment())
         binding.navbar.selectedItemId = R.id.homeFragment
 
-        //NavBar
+        //NavBar Listener for Fragments
         binding.navbar.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.profileFragment -> replaceFragment(ProfileFragment())
@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Método para cambiar de Fragment
     private fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.frame_layout, fragment)

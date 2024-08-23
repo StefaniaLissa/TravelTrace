@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_touch_min"
             android:ems="10"
-            android:inputType="text"
             android:hint="Nombre el Punto de Interés"
+            android:inputType="text"
             android:textSize="@dimen/title_20" />
 
 
@@ -34,19 +34,22 @@
             android:layout_margin="@dimen/margin_touch_min"
             android:orientation="horizontal">
 
+            <fragment
+                android:id="@+id/fg_autocomplete"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/white" />
+
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="-10dp"
+                android:layout_marginStart="-50dp"
+                android:contentDescription="@string/seleccionar_ubicacion"
                 android:padding="12dp"
                 android:src="@drawable/ic_place" />
-
-            <SearchView
-                android:id="@+id/sv_ubi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layoutDirection="rtl" />
         </LinearLayout>
+
 
         <EditText
             android:id="@+id/et_description"
@@ -176,8 +179,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_touch_min"
-            android:orientation="horizontal"
-            android:gravity="right">
+            android:gravity="right"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
