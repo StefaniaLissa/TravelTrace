@@ -34,18 +34,26 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_calendar" />
 
-            <EditText
-                android:id="@+id/et_date"
+            <TextView
+                android:id="@+id/tv_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_touch_min"
+                android:layout_marginEnd="40dp"
                 android:hint="Fecha"
                 android:textSize="@dimen/title_20" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="-35dp"
+                android:src="@drawable/ic_edit" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,19 +63,29 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_time" />
 
-            <EditText
-                android:id="@+id/et_time"
+            <TextView
+                android:id="@+id/tv_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_touch_min"
+                android:layout_marginEnd="40dp"
                 android:hint="@string/hora"
                 android:textSize="@dimen/title_20" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="-35dp"
+                android:src="@drawable/ic_edit" />
         </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"

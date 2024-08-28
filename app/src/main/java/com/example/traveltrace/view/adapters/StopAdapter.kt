@@ -1,6 +1,8 @@
 package com.example.traveltrace.view.adapters
 
 import android.content.Intent
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +18,13 @@ import com.example.traveltrace.R
 import com.example.traveltrace.model.data.Photo
 import com.example.traveltrace.model.data.Stop
 import com.example.traveltrace.view.stop.DetailedStopActivity
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.FetchPlaceRequest
+import com.google.android.libraries.places.api.net.FetchPlaceResponse
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
 
@@ -56,7 +65,29 @@ class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
             holder.rv_images.layoutManager = layoutManager
             holder.rv_images.adapter = adapter
         }
+        //Timestamp
+        if (stop.timestamp == null){
+            holder.time.visibility = View.GONE
+            holder.day.visibility = View.GONE
+            holder.month.visibility = View.GONE
+            holder.year.visibility = View.GONE
+        } else {
+            var calendar = Calendar.getInstance()
+            var stopDate = Date(stop.timestamp!!.seconds * 1000)
+            calendar.setTime(stopDate)
+            holder.time.text = calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" + calendar.get(Calendar.MINUTE).toString()
+            holder.day.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
+            holder.month.text = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+            holder.year.text = calendar.get(Calendar.YEAR).toString()
+        }
 
+        //UBICACIÓN
+        if (stop.idPlace.isNullOrEmpty()){
+            holder.ubi.visibility = View.GONE
+        } else {
+          holder.ubi.text = stop.namePlace
+          holder.LatLng.text = stop.geoPoint.toString()
+        }
 
         // Click
             holder.itemView.setOnClickListener {
@@ -65,7 +96,6 @@ class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 holder.itemView.context.startActivity(intent)
             }
-
     }
 
     override fun getItemCount(): Int {
@@ -83,15 +113,16 @@ class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
         val name: TextView = itemView.findViewById(R.id.tvName)
         val text: TextView = itemView.findViewById(R.id.tvText)
 
+        val time: TextView = itemView.findViewById(R.id.tvTime)
         val day: TextView = itemView.findViewById(R.id.tvDay)
         val month: TextView = itemView.findViewById(R.id.tvMonth)
         val year: TextView = itemView.findViewById(R.id.tvYear)
-        val time: TextView = itemView.findViewById(R.id.tvTime)
 
         val rv_images: RecyclerView = itemView.findViewById(R.id.rv_images)
         val sv_images: ScrollView = itemView.findViewById(R.id.sv_images)
 
         val ubi: TextView = itemView.findViewById(R.id.tvUbi)
+        val LatLng: TextView = itemView.findViewById(R.id.tvLatLng)
 
         val expenses: LinearLayout = itemView.findViewById(R.id.ll_expenses)
         val category: TextView = itemView.findViewById(R.id.tvCategory)
@@ -101,5 +132,9 @@ class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
         val from: TextView = itemView.findViewById(R.id.tvFrom)
         val to: TextView = itemView.findViewById(R.id.tvTo)
 
+    }
+
+    fun getStops(): List<Stop> {
+        return stopArrayList
     }
 }

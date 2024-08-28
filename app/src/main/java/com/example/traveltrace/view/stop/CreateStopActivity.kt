@@ -1,6 +1,8 @@
 package com.example.traveltrace.view.stop
 
 import android.Manifest
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.ApplicationInfo
@@ -35,13 +37,17 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.storage.FirebaseStorage
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class CreateStopActivity : AppCompatActivity() {
 
     private lateinit var et_name: EditText
-    private lateinit var sv_ubi: SearchView
     private lateinit var et_description: EditText
     private lateinit var cb_expenses: CheckBox
     private lateinit var ll_expenses: LinearLayout
@@ -55,8 +61,10 @@ class CreateStopActivity : AppCompatActivity() {
     private lateinit var btn_camera: Button
     private lateinit var sv_images: ScrollView
     private lateinit var rv_images: RecyclerView
-    private lateinit var et_date: EditText
-    private lateinit var et_time: EditText
+    private lateinit var tv_date: TextView
+    private var calendar = Calendar.getInstance()
+    private lateinit var tv_time: TextView
+    private lateinit var timestamp_fb: Timestamp
     private lateinit var ll_alert: LinearLayout
     private lateinit var tv_alert: TextView
     private lateinit var fab_done: FloatingActionButton
@@ -67,7 +75,10 @@ class CreateStopActivity : AppCompatActivity() {
     private lateinit var layoutManager: GridLayoutManager
     private lateinit var imagesList: ArrayList<String>
 
-    private lateinit var etPlace: EditText
+    private var placeFragment: AutocompleteSupportFragment? = null
+    private lateinit var idPlace: String
+    private lateinit var namePlace: String
+    private lateinit var geoPoint: GeoPoint
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,56 +100,63 @@ class CreateStopActivity : AppCompatActivity() {
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, apiKey)
         }
-        // Initialize Autocomplete Fragments
-        // from the main activity layout file
-        val autocompleteSupportFragment1 = supportFragmentManager.findFragmentById(R.id.fg_autocomplete) as AutocompleteSupportFragment?
+
+        //Ubicación
         // Information that we wish to fetch after typing
         // the location and clicking on one of the options
-        autocompleteSupportFragment1!!.setPlaceFields(
-            listOf(
-
-                Place.Field.NAME,
-                Place.Field.ADDRESS,
-                Place.Field.PHONE_NUMBER,
-                Place.Field.LAT_LNG,
-                Place.Field.OPENING_HOURS,
-                Place.Field.RATING,
-                Place.Field.USER_RATINGS_TOTAL
-
+        placeFragment!!.setPlaceFields(
+                listOf(
+                    Place.Field.NAME,
+                    Place.Field.ID,
+                    Place.Field.LAT_LNG
+                )
             )
-        )
-        // Display the fetched information after clicking on one of the options
-        autocompleteSupportFragment1.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onPlaceSelected(place: Place) {
 
-                // Information about the place
-                val name = place.name
-                val address = place.address
-                val phone = place.phoneNumber
-                val latlng = place.latLng
-                val latitude = latlng?.latitude
-                val longitude = latlng?.longitude
-
-                val isOpenStatus : String = if(place.isOpen == true){
-                    "Open"
-                } else {
-                    "Closed"
+            // Display the fetched information after clicking on one of the options
+        placeFragment!!.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+                override fun onPlaceSelected(place: Place) {
+                    idPlace = place.id.toString()
+                    namePlace = place.name.toString()
+                    geoPoint = GeoPoint(place.latLng.latitude, place.latLng.longitude)
                 }
 
-                val rating = place.rating
-                val userRatings = place.userRatingsTotal
+                override fun onError(status: Status) {
+                    Toast.makeText(applicationContext, "Some error occurred", Toast.LENGTH_SHORT)
+                        .show()
+                }
 
-                val text = "Name: $name \nAddress: $address \nPhone Number: $phone \n" +
-                        "Latitude, Longitude: $latitude , $longitude \nIs open: $isOpenStatus \n" +
-                        "Rating: $rating \nUser ratings: $userRatings"
-            }
+            })
 
-            override fun onError(status: Status) {
-                Toast.makeText(applicationContext,"Some error occurred", Toast.LENGTH_SHORT).show()
-            }
+        //Fecha
+        tv_date.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+                    // Set the selected date using the values received from the DatePicker dialog
+                    calendar.set(year, monthOfYear, dayOfMonth)
+                    // Format the selected date into a string
+                    val formattedDate = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault()).format(calendar.time)
+                    // Update the TextView to display the selected date with the "Selected Date: " prefix
+                    tv_date.text = formattedDate
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            )
+            datePickerDialog.show()
+            timestamp_fb = Timestamp(calendar.time)
+        }
 
-        })
+        //Hora
+        val timePickerDialog = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
+            calendar.set(Calendar.MINUTE, minute)
+            tv_time.text = SimpleDateFormat("HH:mm").format(calendar.time)
+        }
 
+        tv_time.setOnClickListener {
+            TimePickerDialog(this, timePickerDialog, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+            timestamp_fb = Timestamp(calendar.time)
+        }
 
         //Images
         btn_gallery.setOnClickListener {
@@ -169,7 +187,12 @@ class CreateStopActivity : AppCompatActivity() {
         fab_done.setOnClickListener {
             val stop = hashMapOf(
                 "name" to et_name.text.toString(),
-                "text" to et_description.text.toString()
+                "text" to et_description.text.toString(),
+                "timestamp" to timestamp_fb,
+                "idPlace" to idPlace,
+                "namePlace" to namePlace,
+                "geoPoint" to geoPoint
+
             )
             // Agregar a la colección con nuevo ID
             db.collection("trips")
@@ -338,8 +361,8 @@ class CreateStopActivity : AppCompatActivity() {
         btn_camera = findViewById(R.id.btn_camera)
         rv_images = findViewById(R.id.rv_images)
         sv_images = findViewById(R.id.sv_images)
-        et_date = findViewById(R.id.et_date)
-        et_time = findViewById(R.id.et_time)
+        tv_date = findViewById(R.id.tv_date)
+        tv_time = findViewById(R.id.tv_time)
         ll_alert = findViewById(R.id.ll_alert)
         tv_alert = findViewById(R.id.tv_alert)
         fab_done = findViewById(R.id.fab_done)
@@ -354,6 +377,14 @@ class CreateStopActivity : AppCompatActivity() {
 
 //        etPlace = findViewById(R.id.fg_autocomplete)
 //        etPlace.setHintTextColor(getColor(R.color.white))
+        placeFragment = supportFragmentManager.findFragmentById(R.id.fg_autocomplete) as AutocompleteSupportFragment?
+
+
+        //Cargar Fecha y Hora actual
+        calendar = Calendar.getInstance()
+        tv_date.text = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault()).format(calendar.timeInMillis)
+        tv_time.text = SimpleDateFormat("HH:mm").format(calendar.timeInMillis)
+        timestamp_fb = Timestamp(calendar.time)
     }
 
 }

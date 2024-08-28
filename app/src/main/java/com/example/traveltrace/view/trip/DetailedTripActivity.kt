@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveltrace.R
+import com.example.traveltrace.model.data.Stop
 import com.example.traveltrace.view.stop.CreateStopActivity
 import com.example.traveltrace.view.adapters.StopAdapter
 import com.example.traveltrace.viewmodel.StopViewModel
@@ -34,6 +35,7 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var stopAdapter: StopAdapter
     private lateinit var mMap: GoogleMap
     private lateinit var trip: String
+    private lateinit var stops: List<Stop>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,9 +71,10 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
         stopViewModel = ViewModelProvider(this).get(StopViewModel::class.java)
         stopViewModel.stopsForTrip.observe(this, Observer {
             stopAdapter.updateStopList(it)
+            stops = stopAdapter.getStops()
         })
         stopViewModel.loadStopsForTrip(trip)
-
+        var stops = stopViewModel.stopsForTrip
 
         //New Stop
         fab_newStop.setOnClickListener {
@@ -90,18 +93,34 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
+        stops.forEach { stop ->
+            val latLng = stop.geoPoint?.let {
+//                val coordinates = it.split(",")
+//                LatLng(coordinates[0].toDouble(), coordinates[1].toDouble())}
+                LatLng(it.latitude, it.longitude)}
+
+            latLng?.let {
+                mMap.addMarker(
+                    MarkerOptions()
+                        .position(it)
+                        .title(stop.name)
+                )
+            }
+        }
         // Add a marker in Madrid, Spain, and move the camera
-        val madrid = LatLng(40.4168, -3.7038)
-        mMap.addMarker(
-            MarkerOptions()
-                .position(madrid)
-                .title("Madrid")
-        )
+//        val madrid = LatLng(40.4168, -3.7038)
+//        mMap.addMarker(
+//            MarkerOptions()
+//                .position(madrid)
+//                .title("Madrid")
+//        )
+
+
         // Set the zoom level (e.g., 12.0f is the zoom level)
-        val zoomLevel = 12.0f
+//        val zoomLevel = 12.0f
 
         // Move the camera with zoom to the specified location
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madrid, zoomLevel))
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madrid, zoomLevel))
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(madrid))
     }

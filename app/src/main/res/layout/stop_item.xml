@@ -21,6 +21,14 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="HH:MM"
+                android:textSize="15dp" />
+
+            <TextView
                 android:id="@+id/tvDay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,14 +50,6 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="AAAA"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="HH:MM"
                 android:textSize="15dp" />
 
         </LinearLayout>
@@ -188,5 +188,13 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <TextView
+        android:id="@+id/tvLatLng"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/rv_items"
+        android:textSize="@dimen/font_std"
+        android:visibility="gone"/>
 
 </LinearLayout>
