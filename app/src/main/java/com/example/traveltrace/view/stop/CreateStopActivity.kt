@@ -76,9 +76,9 @@ class CreateStopActivity : AppCompatActivity() {
     private lateinit var imagesList: ArrayList<String>
 
     private var placeFragment: AutocompleteSupportFragment? = null
-    private lateinit var idPlace: String
-    private lateinit var namePlace: String
-    private lateinit var geoPoint: GeoPoint
+    private var idPlace: String = ""
+    private var namePlace: String = ""
+    private var geoPoint: GeoPoint = GeoPoint(0.0, 0.0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -192,8 +192,8 @@ class CreateStopActivity : AppCompatActivity() {
                 "idPlace" to idPlace,
                 "namePlace" to namePlace,
                 "geoPoint" to geoPoint
-
             )
+
             // Agregar a la colección con nuevo ID
             db.collection("trips")
                 .document(id)

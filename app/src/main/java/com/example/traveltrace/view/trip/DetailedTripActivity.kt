@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.GeoPoint
 
 class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -35,7 +36,9 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var stopAdapter: StopAdapter
     private lateinit var mMap: GoogleMap
     private lateinit var trip: String
-    private lateinit var stops: List<Stop>
+    private lateinit var stops: ArrayList<Stop>
+
+    private lateinit var coordinates: ArrayList<GeoPoint>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,10 +74,24 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
         stopViewModel = ViewModelProvider(this).get(StopViewModel::class.java)
         stopViewModel.stopsForTrip.observe(this, Observer {
             stopAdapter.updateStopList(it)
-            stops = stopAdapter.getStops()
+            coordinates.clear()
+            it.forEach {
+//                val latLng = it.geoPoint?.let {
+//                    LatLng(it.latitude, it.longitude)}
+                it.geoPoint?.let { it2 -> coordinates.add(it2)
+                    LatLng(it2.latitude, it2.longitude).let {
+                        mMap.addMarker(
+                            MarkerOptions()
+                                .position(it)
+                        )
+                    }
+            }
+            }
         })
         stopViewModel.loadStopsForTrip(trip)
-        var stops = stopViewModel.stopsForTrip
+        coordinates = stopViewModel.getCoordinates(trip)!!
+
+//        stops = stopViewModel.getStops()!!
 
         //New Stop
         fab_newStop.setOnClickListener {
@@ -92,9 +109,8 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
-        stops.forEach { stop ->
-            val latLng = stop.geoPoint?.let {
+        coordinates.forEach { stop ->
+            val latLng = stop.let {
 //                val coordinates = it.split(",")
 //                LatLng(coordinates[0].toDouble(), coordinates[1].toDouble())}
                 LatLng(it.latitude, it.longitude)}
@@ -103,7 +119,6 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
                 mMap.addMarker(
                     MarkerOptions()
                         .position(it)
-                        .title(stop.name)
                 )
             }
         }

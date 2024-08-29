@@ -8,6 +8,7 @@ import com.example.traveltrace.model.data.Stop
 import com.example.traveltrace.model.data.Trip
 import com.example.traveltrace.model.repository.StopRepository
 import com.example.traveltrace.model.repository.TripRepository
+import com.google.firebase.firestore.GeoPoint
 import kotlinx.coroutines.launch
 
 class StopViewModel : ViewModel() {
@@ -15,6 +16,7 @@ class StopViewModel : ViewModel() {
     private val stopRepository: StopRepository = StopRepository().getInstance()
     private val _stopsForTrip = MutableLiveData<List<Stop>>()
     val stopsForTrip: LiveData<List<Stop>> = _stopsForTrip
+    val stopsCoordinates = ArrayList<GeoPoint>()
 
     fun loadStopsForTrip(tripId: String) {
         viewModelScope.launch {
@@ -24,5 +26,26 @@ class StopViewModel : ViewModel() {
                 // TODO: Handle exception
             }
         }
+    }
+
+    fun getCoordinates(tripId: String): ArrayList<GeoPoint>? {
+//        val coordinates = ArrayList<GeoPoint>()
+//        _stopsForTrip.value?.forEach { stop ->
+//            stop.geoPoint?.let { coordinates.add(it) }
+//        }
+//        return coordinates
+        viewModelScope.launch {
+            try {
+                stopRepository.loadCoordinates(tripId, stopsCoordinates)
+            } catch (e: Exception) {
+                // TODO: Handle exception
+            }
+        }
+        return stopsCoordinates
+    }
+
+
+    fun getStops(): List<Stop>? {
+        return _stopsForTrip.value
     }
 }

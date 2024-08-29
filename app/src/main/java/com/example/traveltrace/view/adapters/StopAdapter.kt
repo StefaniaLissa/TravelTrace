@@ -89,6 +89,13 @@ class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
           holder.LatLng.text = stop.geoPoint.toString()
         }
 
+        //Vuelo
+        if (true){
+            holder.flight.visibility = View.GONE
+            holder.category.visibility = View.GONE
+        }
+
+
         // Click
             holder.itemView.setOnClickListener {
                 val intent = Intent(holder.itemView.context, DetailedStopActivity::class.java)

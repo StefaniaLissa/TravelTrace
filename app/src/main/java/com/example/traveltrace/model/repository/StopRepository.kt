@@ -7,6 +7,7 @@ import com.example.traveltrace.model.data.Stop
 import com.example.traveltrace.model.data.Trip
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.toObject
 
 class StopRepository {
@@ -69,4 +70,28 @@ class StopRepository {
             }
     }
 
+
+    fun loadCoordinates(documentId: String, al_coord: ArrayList<GeoPoint>) {
+        FirebaseFirestore.getInstance()
+            .collection("trips")
+            .document(documentId)
+            .collection("stops")
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Log.w("Error", "loadStops failed.", e)
+                    al_coord.clear()
+                    return@addSnapshotListener
+                }
+//                var _stops = ArrayList<Stop>()
+                for (doc in snapshot!!) {
+                    val stop = doc.toObject(Stop::class.java)
+                    if (stop != null) {
+                        stop.id = doc.id
+//                        _stops.add(stop)
+//                        mld_stops.postValue(_stops)
+                        stop.geoPoint?.let { al_coord.add(it) }
+                    }
+                }
+            }
+    }
 }
