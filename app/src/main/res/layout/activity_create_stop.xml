@@ -363,6 +363,7 @@
         android:layout_margin="16dp"
         android:backgroundTint="@color/light_green"
         android:contentDescription="@string/crear"
+        app:shapeAppearanceOverlay="@style/fab_square"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_done" />

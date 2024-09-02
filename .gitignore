@@ -13,3 +13,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+.idea/gradle.xml
+.idea/other.xml
+.idea/misc.xml
+.idea/deploymentTargetSelector.xml
+build.gradle.kts

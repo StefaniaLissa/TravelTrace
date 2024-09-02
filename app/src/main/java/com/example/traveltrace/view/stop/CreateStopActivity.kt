@@ -29,6 +29,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveltrace.R
+import com.example.traveltrace.model.data.Stop
 import com.example.traveltrace.view.adapters.ImageAdapter
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.tasks.Task
@@ -40,6 +41,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -79,6 +81,8 @@ class CreateStopActivity : AppCompatActivity() {
     private var idPlace: String = ""
     private var namePlace: String = ""
     private var geoPoint: GeoPoint = GeoPoint(0.0, 0.0)
+
+    private lateinit var minTimestamp: Timestamp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -225,6 +229,26 @@ class CreateStopActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
+                                // TODO: IF TRIP INITDATE > STOP TIMESTAMP
+                                //Fecha de Inicio del Viaje
+                                .addOnSuccessListener {
+                                    db.collection("trips")
+                                        .orderBy("timestamp" , Query.Direction.DESCENDING).limit(1)
+                                        .get().addOnSuccessListener {
+                                            it.toObjects(Stop::class.java)
+                                            for ( minStop in it ){
+                                                minTimestamp = minStop.get("timestamp") as Timestamp
+                                            }
+                                        }
+                                    if ((minTimestamp.toString().isNullOrBlank()) or
+                                        //Primera Parada, Inicio del Viaje
+                                        ( )) { //TODO: Pasar Trip Object al Activity
+                                        //Trip initdate > timestamp_fb
+                                        db.collection("trips")
+                                        .document(id).update("initDate", timestamp_fb)
+                                        // TODO: Exception Handling
+                                    }
+                                }
                         }
                     }
                 }
