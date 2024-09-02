@@ -34,10 +34,9 @@
                 android:id="@+id/map"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
-                app:uiZoomControls="true"
-                app:uiZoomGestures="true"
                 android:layout_height="350dp"
-                />
+                app:uiRotateGestures="true"
+                app:uiZoomControls="true" />
 
             <ScrollView
                 android:id="@+id/scroll_view"
@@ -53,10 +52,11 @@
                         android:id="@+id/rv_stops"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="100dp"/>
+                        android:layout_marginBottom="100dp" />
 
                 </LinearLayout>
             </ScrollView>
+
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -67,9 +67,9 @@
             android:layout_margin="16dp"
             android:backgroundTint="@color/light_green"
             android:contentDescription="Crear Entrada"
-            app:shapeAppearanceOverlay="@style/fab_square"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearanceOverlay="@style/fab_square"
             app:srcCompat="@drawable/ic_plus" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

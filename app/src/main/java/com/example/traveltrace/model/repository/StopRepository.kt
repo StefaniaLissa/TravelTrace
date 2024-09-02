@@ -82,14 +82,12 @@ class StopRepository {
                     al_coord.clear()
                     return@addSnapshotListener
                 }
-//                var _stops = ArrayList<Stop>()
                 for (doc in snapshot!!) {
                     val stop = doc.toObject(Stop::class.java)
                     if (stop != null) {
                         stop.id = doc.id
-//                        _stops.add(stop)
-//                        mld_stops.postValue(_stops)
-                        stop.geoPoint?.let { al_coord.add(it) }
+                        if (stop.geoPoint != GeoPoint(0.0, 0.0)){
+                        stop.geoPoint?.let { al_coord.add(it) }}
                     }
                 }
             }

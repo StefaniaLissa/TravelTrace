@@ -123,7 +123,10 @@ class CreateTripActivity : AppCompatActivity() {
                                 ).show()
                             }
                     }
-                    startActivity(Intent(this@CreateTripActivity, DetailedTripActivity::class.java))
+                    val intent = Intent(this@CreateTripActivity, DetailedTripActivity::class.java)
+                    intent.putExtra("id", tripId)
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
                     finish()
                 }
                 .addOnFailureListener { e ->

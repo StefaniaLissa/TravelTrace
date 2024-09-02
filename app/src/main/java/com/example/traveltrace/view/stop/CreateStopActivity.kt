@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveltrace.R
 import com.example.traveltrace.model.data.Stop
+import com.example.traveltrace.model.data.Trip
 import com.example.traveltrace.view.adapters.ImageAdapter
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.tasks.Task
@@ -43,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -92,6 +94,14 @@ class CreateStopActivity : AppCompatActivity() {
         //Get Trip Intent
         val id = intent.getStringExtra("trip").toString()
 
+        val initDate: Timestamp? = try {
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val date = dateFormat.parse(intent.getStringExtra("initDate"))
+            if (date != null) Timestamp(date) else null
+        } catch (e: Exception) {
+            // TODO: Handle parsing errors (e.g., invalid date format)
+            null
+        }
 
         // Recuperar API KEY
         val ai: ApplicationInfo? = applicationContext.packageManager
@@ -109,36 +119,42 @@ class CreateStopActivity : AppCompatActivity() {
         // Information that we wish to fetch after typing
         // the location and clicking on one of the options
         placeFragment!!.setPlaceFields(
-                listOf(
-                    Place.Field.NAME,
-                    Place.Field.ID,
-                    Place.Field.LAT_LNG
-                )
+            listOf(
+                Place.Field.NAME,
+                Place.Field.ID,
+                Place.Field.LAT_LNG,
+                Place.Field.ADDRESS,
+                Place.Field.ADDRESS_COMPONENTS
             )
+        )
 
-            // Display the fetched information after clicking on one of the options
+        // Display the fetched information after clicking on one of the options
         placeFragment!!.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-                override fun onPlaceSelected(place: Place) {
-                    idPlace = place.id.toString()
-                    namePlace = place.name.toString()
-                    geoPoint = GeoPoint(place.latLng.latitude, place.latLng.longitude)
-                }
+            override fun onPlaceSelected(place: Place) {
+                idPlace = place.id.toString()
+                namePlace = place.name.toString()
+                geoPoint = GeoPoint(place.latLng.latitude, place.latLng.longitude)
 
-                override fun onError(status: Status) {
-                    Toast.makeText(applicationContext, "Some error occurred", Toast.LENGTH_SHORT)
-                        .show()
-                }
+            }
 
-            })
+            override fun onError(status: Status) {
+                Toast.makeText(applicationContext, "Some error occurred", Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+        })
 
         //Fecha
         tv_date.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
-                this, {DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
+                this, { DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
                     // Set the selected date using the values received from the DatePicker dialog
                     calendar.set(year, monthOfYear, dayOfMonth)
                     // Format the selected date into a string
-                    val formattedDate = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault()).format(calendar.time)
+                    val formattedDate =
+                        SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault()).format(
+                            calendar.time
+                        )
                     // Update the TextView to display the selected date with the "Selected Date: " prefix
                     tv_date.text = formattedDate
                 },
@@ -158,7 +174,13 @@ class CreateStopActivity : AppCompatActivity() {
         }
 
         tv_time.setOnClickListener {
-            TimePickerDialog(this, timePickerDialog, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
+            TimePickerDialog(
+                this,
+                timePickerDialog,
+                calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),
+                true
+            ).show()
             timestamp_fb = Timestamp(calendar.time)
         }
 
@@ -229,23 +251,13 @@ class CreateStopActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                                // TODO: IF TRIP INITDATE > STOP TIMESTAMP
-                                //Fecha de Inicio del Viaje
                                 .addOnSuccessListener {
-                                    db.collection("trips")
-                                        .orderBy("timestamp" , Query.Direction.DESCENDING).limit(1)
-                                        .get().addOnSuccessListener {
-                                            it.toObjects(Stop::class.java)
-                                            for ( minStop in it ){
-                                                minTimestamp = minStop.get("timestamp") as Timestamp
-                                            }
-                                        }
-                                    if ((minTimestamp.toString().isNullOrBlank()) or
-                                        //Primera Parada, Inicio del Viaje
-                                        ( )) { //TODO: Pasar Trip Object al Activity
-                                        //Trip initdate > timestamp_fb
+                                    //Fecha de Inicio del Viaje Portada
+                                    if ((initDate!! > timestamp_fb) or
+                                        (initDate == null)
+                                    ) {
                                         db.collection("trips")
-                                        .document(id).update("initDate", timestamp_fb)
+                                            .document(id).update("initDate", timestamp_fb)
                                         // TODO: Exception Handling
                                     }
                                 }
@@ -362,7 +374,9 @@ class CreateStopActivity : AppCompatActivity() {
     private val cameraActivityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
-                //iv_cover.setImageURI(uri)
+                uri?.let { imagesList.add(it.toString()) }
+                sv_images.isVisible = true
+                adapter.notifyDataSetChanged()
             } else {
                 Toast.makeText(applicationContext, "Cancelado por el usuario", Toast.LENGTH_SHORT)
                     .show()
@@ -401,12 +415,16 @@ class CreateStopActivity : AppCompatActivity() {
 
 //        etPlace = findViewById(R.id.fg_autocomplete)
 //        etPlace.setHintTextColor(getColor(R.color.white))
-        placeFragment = supportFragmentManager.findFragmentById(R.id.fg_autocomplete) as AutocompleteSupportFragment?
+        placeFragment =
+            supportFragmentManager.findFragmentById(R.id.fg_autocomplete) as AutocompleteSupportFragment?
 
 
         //Cargar Fecha y Hora actual
         calendar = Calendar.getInstance()
-        tv_date.text = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault()).format(calendar.timeInMillis)
+        tv_date.text = SimpleDateFormat(
+            "dd 'de' MMMM 'de' yyyy",
+            Locale.getDefault()
+        ).format(calendar.timeInMillis)
         tv_time.text = SimpleDateFormat("HH:mm").format(calendar.timeInMillis)
         timestamp_fb = Timestamp(calendar.time)
     }

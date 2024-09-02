@@ -22,8 +22,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.GeoPoint
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -36,6 +41,7 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var stopAdapter: StopAdapter
     private lateinit var mMap: GoogleMap
     private lateinit var trip: String
+    private lateinit var initDate: String
     private lateinit var stops: ArrayList<Stop>
 
     private lateinit var coordinates: ArrayList<GeoPoint>
@@ -50,6 +56,7 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Get Trip Intent
         trip = intent.getStringExtra("id").toString()
+        initDate = intent.getStringExtra("initDate").toString()
 
         //Get Trip
         viewModel = ViewModelProvider(this).get(TripViewModel::class.java)
@@ -97,6 +104,7 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
         fab_newStop.setOnClickListener {
             val intent = Intent(this, CreateStopActivity::class.java)
             intent.putExtra("trip", trip)
+            intent.putExtra("initDate", initDate)
             startActivity(intent)
         }
 

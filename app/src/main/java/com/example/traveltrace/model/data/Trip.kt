@@ -6,5 +6,6 @@ data class Trip(
     var id:String?=null,
     var name:String?=null,
     var image:String?=null,
-    var initDate:Timestamp?=null
+    var initDate:Timestamp?=null,
+    var globalPlace:String?=null,
 )

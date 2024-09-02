@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.login.LoginActivity">
+    tools:context=".view.login.LoginActivity"
+    android:background="@color/semi_light_green">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,8 +29,11 @@
             android:autofillHints="true"
             android:drawableStart="@drawable/ic_email"
             android:drawablePadding="@dimen/padding_ll_std"
+            android:drawableTint="@color/white"
             android:hint="@string/email"
-            android:textSize="@dimen/font_std" />
+            android:textColorHint="@color/white"
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/font_medium" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -42,10 +46,12 @@
                 android:layout_height="@dimen/touch_min"
                 android:layout_margin="@dimen/margin_touch_min"
                 android:autofillHints="true"
-                android:drawableStart="@drawable/ic_person"
+                android:drawableStart="@drawable/ic_lock"
                 android:drawablePadding="@dimen/padding_ll_std"
+                android:drawableTint="@color/white"
                 android:hint="@string/password"
-                android:textSize="@dimen/font_std" />
+                android:textColorHint="@color/white"
+                android:textSize="@dimen/font_medium" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -68,6 +74,7 @@
             android:layout_height="@dimen/touch_min"
             android:layout_margin="@dimen/margin_touch_min"
             android:text="@string/login"
+            android:background="@drawable/bt_rounded_corner"
             android:textSize="@dimen/font_std" />
 
         <TextView
@@ -76,17 +83,42 @@
             android:layout_height="@dimen/touch_min"
             android:layout_margin="@dimen/margin_touch_min"
             android:gravity="center"
+            android:textColor="@color/white"
             android:text="@string/forgot"
-            android:textSize="@dimen/font_std" />
+            android:textSize="@dimen/font_medium" />
 
-        <Button
+        <LinearLayout
             android:id="@+id/btn_login_google"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/touch_min"
-            android:layout_margin="@dimen/margin_touch_min"
-            android:drawableStart="@drawable/ic_login_google"
-            android:text="@string/login_google"
-            android:textSize="@dimen/font_std" />
+            android:layout_height="48sp"
+            android:layout_margin="8sp"
+            android:background="@drawable/bt_rounded_corner"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/touch_min"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="-15sp"
+                android:padding="@dimen/padding_touch_min"
+                android:contentDescription="@string/google"
+                android:src="@drawable/ic_login_google" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/touch_min"
+                android:backgroundTint="@color/gray"
+                android:gravity="center"
+                android:text="@string/login_google"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_std"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/btn_signup"
@@ -94,6 +126,7 @@
             android:layout_height="@dimen/touch_min"
             android:layout_margin="@dimen/margin_touch_min"
             android:text="@string/signup"
+            android:background="@drawable/bt_rounded_corner"
             android:textSize="@dimen/font_std" />
 
     </LinearLayout>

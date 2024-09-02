@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="109dp"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
@@ -10,7 +11,7 @@
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="match_parent"
-        android:layout_height="109dp"
+        android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:foreground="#34000000"
@@ -19,35 +20,47 @@
         app:srcCompat="@drawable/img_cover_travel_trace" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/margin_touch_min">
 
         <TextView
+            android:shadowDy="0.000"
+            android:shadowRadius="20.000"
+            android:shadowColor="@color/black"
             android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Nombre"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:shadowDy="0.000"
+            android:shadowRadius="20.000"
+            android:shadowColor="@color/black"
+            android:id="@+id/tvPlace"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Ubicación"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/tvCountry"
-            android:text="Counties"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp" />
-
-        <TextView
+            android:shadowDy="0.000"
+            android:shadowRadius="20.000"
+            android:shadowColor="@color/black"
             android:id="@+id/tvDates"
-            android:text="Initial - Final"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Fecha"
+            android:textColor="@color/white"
             android:textSize="20sp" />
 
     </LinearLayout>

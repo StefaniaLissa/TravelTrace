@@ -5,7 +5,7 @@
     <string name="email">Correo Electrónico</string>
     <string name="password">Contraseña</string>
     <string name="login">Iniciar Sesión</string>
-    <string name="login_google">Iniciar Sesión con Google</string>
+    <string name="login_google">INICIAR SESIÓN CON GOOGLE</string>
     <string name="signup">Registrarse</string>
     <string name="forgot">Recuperar contraseña</string>
     <string name="re_password">Repetir contraseña</string>
@@ -52,4 +52,5 @@
     <string name="galer_a">Galería</string>
     <string name="hora">Hora</string>
     <string name="nombre_el_punto_de_inter_s">Nombre del Punto de Interés</string>
+    <string name="google">Google</string>
 </resources>

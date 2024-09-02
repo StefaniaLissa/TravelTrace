@@ -10,4 +10,6 @@
     <color name="splash_screen">#FFFFFFFF</color>
     <color name="green_light">#D5E8D4</color>
     <color name="light_green">#B4CE7F</color>
+    <color name="semi_light_green">#899D61</color>
+    <color name="gray">@android:color/system_neutral1_700</color>
 </resources>
