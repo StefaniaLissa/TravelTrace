@@ -6,11 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.traveltrace.R
 import com.example.traveltrace.model.data.Trip
 import com.example.traveltrace.view.trip.DetailedTripActivity
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -19,7 +22,8 @@ class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
     private val tripArrayList = ArrayList<Trip>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.trip_item, parent,false)
+        val itemView =
+            LayoutInflater.from(parent.context).inflate(R.layout.trip_item, parent, false)
         return TripViewHolder(itemView)
     }
 
@@ -29,10 +33,10 @@ class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
 
         // Fecha del Viaje
         if (trip.initDate != null) {
-        val date = Date(trip.initDate!!.seconds * 1000)
-        val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
-        holder.initDate.text = dateFormat.format(date).replaceFirstChar { it -> it.uppercase() }
-        holder.initDate.visibility = View.VISIBLE
+            val date = Date(trip.initDate!!.seconds * 1000)
+            val dateFormat = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+            holder.initDate.text = dateFormat.format(date).replaceFirstChar { it -> it.uppercase() }
+            holder.initDate.visibility = View.VISIBLE
         } else {
             holder.initDate.visibility = View.GONE
         }
@@ -48,31 +52,53 @@ class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
         // Imagen Cover del Viaje
         Glide.with(holder.itemView.context).load(trip.image).into(holder.image)
 
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailedTripActivity::class.java)
             intent.putExtra("id", trip.id)
             intent.putExtra("initDate", trip.initDate)
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             holder.itemView.context.startActivity(intent)
         }
+
+
+        holder.delete.visibility = View.GONE
+        holder.itemView.setOnLongClickListener {
+            if (holder.delete.isVisible) {
+                holder.delete.visibility = View.GONE
+            } else {
+                holder.delete.visibility = View.VISIBLE
+            }
+            true
+        }
+
+    holder.bt_delete.setOnClickListener {
+        FirebaseFirestore.getInstance()
+            .collection("trips")
+            .document(trip.id!!)
+            .delete()
+        notifyDataSetChanged()
+    }
+
     }
 
     override fun getItemCount(): Int {
         return tripArrayList.size
     }
 
-    fun updateTripList(userList : List<Trip>){
+    fun updateTripList(userList: List<Trip>) {
         this.tripArrayList.clear()
         this.tripArrayList.addAll(userList)
         notifyDataSetChanged()
     }
 
-    class  TripViewHolder(itemView:View) :
-        RecyclerView.ViewHolder(itemView){
-        val name : TextView = itemView.findViewById(R.id.tvName)
-        val image : ImageView = itemView.findViewById(R.id.ivImage)
-        val initDate : TextView = itemView.findViewById(R.id.tvDates)
-        val place : TextView = itemView.findViewById(R.id.tvPlace)
+    class TripViewHolder(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+        val name: TextView = itemView.findViewById(R.id.tvName)
+        val image: ImageView = itemView.findViewById(R.id.ivImage)
+        val initDate: TextView = itemView.findViewById(R.id.tvDates)
+        val place: TextView = itemView.findViewById(R.id.tvPlace)
+        val delete: CardView = itemView.findViewById(R.id.cv_delete)
+        val bt_delete: ImageView = itemView.findViewById(R.id.iv_delete)
     }
 
 }

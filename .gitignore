@@ -21,3 +21,7 @@ build.gradle.kts
 .idea/deploymentTargetSelector.xml
 .idea/deploymentTargetSelector.xml
 build.gradle.kts
+.idea/deploymentTargetSelector.xml
+.idea/gradle.xml
+.idea/misc.xml
+.idea/other.xml
