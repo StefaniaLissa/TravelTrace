@@ -1,6 +1,7 @@
 package com.example.traveltrace.view.adapters
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,18 +9,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.traveltrace.R
 import com.example.traveltrace.model.data.Trip
 import com.example.traveltrace.view.trip.DetailedTripActivity
+import com.example.traveltrace.viewmodel.TripViewModel
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
-    private val tripArrayList = ArrayList<Trip>()
+//    private val tripArrayList = ArrayList<Trip>()
+    private val tripArrayList = mutableListOf<Trip>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
         val itemView =
@@ -76,7 +82,15 @@ class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
             .collection("trips")
             .document(trip.id!!)
             .delete()
-        notifyDataSetChanged()
+            .addOnSuccessListener { // Add a success listener after deletion
+                // Update the adapter with the new data (trip deleted)
+                TripViewModel().allTrips.observe( holder.itemView.context as LifecycleOwner, Observer {
+//                    tripAdapter.updateTripList(it);
+                    tripArrayList.addAll(it)
+                });
+            }
+        tripArrayList.removeAt(position)
+        this.notifyDataSetChanged()
     }
 
     }
@@ -85,10 +99,11 @@ class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
         return tripArrayList.size
     }
 
-    fun updateTripList(userList: List<Trip>) {
+    fun updateTripList(tripList: List<Trip>) {
         this.tripArrayList.clear()
-        this.tripArrayList.addAll(userList)
-        notifyDataSetChanged()
+        this.tripArrayList.addAll(tripList)
+        Log.w("BD", "loadTripsAdapter")
+        this.notifyDataSetChanged()
     }
 
     class TripViewHolder(itemView: View) :

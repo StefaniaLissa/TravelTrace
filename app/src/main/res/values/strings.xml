@@ -53,4 +53,14 @@
     <string name="hora">Hora</string>
     <string name="nombre_el_punto_de_inter_s">Nombre del Punto de Interés</string>
     <string name="google">Google</string>
+    <string name="Lorem_ipsum_3_p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc gravida, ante vel sollicitudin scelerisque, neque orci cursus lectus, in facilisis urna nibh eu arcu. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Phasellus eget metus accumsan, dapibus eros vitae, accumsan leo. Quisque sodales velit ex, ultrices facilisis tortor consequat eu.</string>
+    <string name="nombre_de_la_ubi">Nombre de la ubicación</string>
+    <string name="direcci_n_de_la_ubi">Dirección de la ubicación</string>
+    <string name="nombre_de_PI">Nombre de Punto de Interés</string>
+    <string name="stop_cover">Stop Cover</string>
+    <string name="fecha">Fecha</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="editar">Editar</string>
+    <string name="compartir">Compartir</string>
+    <string name="a_adir_im_genes">Añadir Imágenes</string>
 </resources>

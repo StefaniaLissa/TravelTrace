@@ -3,6 +3,7 @@ package com.example.traveltrace.view.trip
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -64,6 +65,7 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
             if (it != null) {
                 toolbar.title = it.name.toString()
             }
+            Log.w("BD", "loadTripFragment")
         })
 
         setSupportActionBar(toolbar)
@@ -209,5 +211,47 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         return true
     }
+
+//    override fun onPause() {
+//        super.onPause()
+//        viewModel.trip.removeObservers(this)
+//        stopViewModel.stopsForTrip.removeObservers(this)
+//        finish()
+//    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        viewModel.trip.removeObservers(this)
+//        stopViewModel.stopsForTrip.removeObservers(this)
+//    }
+//
+//    override fun onResume() {
+//        super.onResume()
+//
+//        viewModel.trip.observe(this, Observer {
+//            if (it != null) {
+//                toolbar.title = it.name.toString()
+//            }
+//        })
+//
+//        stopViewModel.stopsForTrip.observe(this, Observer {
+//            stopAdapter.updateStopList(it)
+//            coordinates.clear()
+//            it.forEach {
+////                val latLng = it.geoPoint?.let {
+////                    LatLng(it.latitude, it.longitude)}
+//                it.geoPoint?.let { it2 ->
+//                    coordinates.add(it2)
+//                    LatLng(it2.latitude, it2.longitude).let {
+//                        mMap.addMarker(
+//                            MarkerOptions()
+//                                .position(it)
+//                        )
+//                    }
+//                }
+//            }
+//        })
+//
+//    }
 
 }
