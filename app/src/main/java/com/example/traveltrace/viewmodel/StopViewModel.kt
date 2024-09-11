@@ -12,16 +12,27 @@ import com.google.firebase.firestore.GeoPoint
 import kotlinx.coroutines.launch
 
 class StopViewModel : ViewModel() {
-
     private val stopRepository: StopRepository = StopRepository().getInstance()
     private val _stopsForTrip = MutableLiveData<List<Stop>>()
     val stopsForTrip: LiveData<List<Stop>> = _stopsForTrip
+    private val _stop = MutableLiveData<Stop>()
+    val stop: LiveData<Stop> = _stop
     val stopsCoordinates = ArrayList<GeoPoint>()
 
     fun loadStopsForTrip(tripId: String) {
         viewModelScope.launch {
             try {
                 stopRepository.loadStops(tripId, _stopsForTrip)
+            } catch (e: Exception) {
+                // TODO: Handle exception
+            }
+        }
+    }
+
+    fun loadStop(tripId: String, stopId: String) {
+        viewModelScope.launch {
+            try {
+                stopRepository.loadSingleStop(tripId, stopId, _stop)
             } catch (e: Exception) {
                 // TODO: Handle exception
             }
@@ -43,7 +54,6 @@ class StopViewModel : ViewModel() {
         }
         return stopsCoordinates
     }
-
 
     fun getStops(): List<Stop>? {
         return _stopsForTrip.value

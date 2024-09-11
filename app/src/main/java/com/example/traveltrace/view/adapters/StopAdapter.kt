@@ -27,7 +27,7 @@ import java.util.Date
 import java.util.Locale
 
 class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
-
+    public lateinit var tripID : String
     private val stopArrayList = ArrayList<Stop>()
     var onStopClick: ((Stop) -> Unit)? = null
 
@@ -99,7 +99,8 @@ class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
         // Click
             holder.itemView.setOnClickListener {
                 val intent = Intent(holder.itemView.context, DetailedStopActivity::class.java)
-                intent.putExtra("id", stop.id)
+                intent.putExtra("stopID", stop.id)
+                intent.putExtra("tripID", tripID)
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 holder.itemView.context.startActivity(intent)
             }

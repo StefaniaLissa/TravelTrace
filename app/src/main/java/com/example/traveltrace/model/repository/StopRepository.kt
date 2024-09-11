@@ -53,10 +53,10 @@ class StopRepository {
                                     mld_stops.value = null
                                     return@addSnapshotListener
                                 }
-                                if(photosDoc!=null){
-                                    for(doc in photosDoc){
+                                if (photosDoc != null) {
+                                    for (doc in photosDoc) {
                                         val photo = doc.toObject(Photo::class.java)
-                                        if (photo != null){
+                                        if (photo != null) {
                                             photoList.add(photo.url.toString())
                                         }
                                     }
@@ -65,6 +65,51 @@ class StopRepository {
                         stop.photos = photoList
                         _stops.add(stop)
                         mld_stops.postValue(_stops)
+                    }
+                }
+            }
+    }
+
+    fun loadSingleStop(tripId: String, stopId: String, mld_stop: MutableLiveData<Stop>) {
+        FirebaseFirestore.getInstance()
+            .collection("trips")
+            .document(tripId)
+            .collection("stops")
+            .document(stopId)
+            .addSnapshotListener { snapshot, e ->
+                if (e != null) {
+                    Log.w("Error", "loadStops failed.", e)
+                    mld_stop.value = null
+                    return@addSnapshotListener
+                } else if (snapshot != null && snapshot.exists()) {
+                    val stop = snapshot.toObject(Stop::class.java)
+
+                    if (stop != null) {
+                        //Images
+                        var photoList = ArrayList<String>()
+                        FirebaseFirestore.getInstance()
+                            .collection("trips")
+                            .document(tripId)
+                            .collection("stops")
+                            .document(stopId)
+                            .collection("photos")
+                            .addSnapshotListener { photosDoc, e ->
+                                if (e != null) {
+                                    Log.w("Error", "load images failed.", e)
+                                    mld_stop.value = null
+                                    return@addSnapshotListener
+                                }
+                                if (photosDoc != null) {
+                                    for (doc in photosDoc) {
+                                        val photo = doc.toObject(Photo::class.java)
+                                        if (photo != null) {
+                                            photoList.add(photo.url.toString())
+                                        }
+                                    }
+                                }
+                            }
+                        stop.photos = photoList
+                        mld_stop.postValue(stop)
                     }
                 }
             }
@@ -86,8 +131,9 @@ class StopRepository {
                     val stop = doc.toObject(Stop::class.java)
                     if (stop != null) {
                         stop.id = doc.id
-                        if (stop.geoPoint != GeoPoint(0.0, 0.0)){
-                        stop.geoPoint?.let { al_coord.add(it) }}
+                        if (stop.geoPoint != GeoPoint(0.0, 0.0)) {
+                            stop.geoPoint?.let { al_coord.add(it) }
+                        }
                     }
                 }
             }

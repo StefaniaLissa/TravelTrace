@@ -95,6 +95,8 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 }
             }
+            stopAdapter.tripID = trip
+            setupMap()
         })
         stopViewModel.loadStopsForTrip(trip)
         coordinates = stopViewModel.getCoordinates(trip)!!
@@ -116,8 +118,7 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
+    private fun setupMap() {
         coordinates.forEach { stop ->
             val latLng = stop.let {
 //                val coordinates = it.split(",")
@@ -132,22 +133,6 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
             }
         }
-        // Add a marker in Madrid, Spain, and move the camera
-//        val madrid = LatLng(40.4168, -3.7038)
-//        mMap.addMarker(
-//            MarkerOptions()
-//                .position(madrid)
-//                .title("Madrid")
-//        )
-
-
-        // Set the zoom level (e.g., 12.0f is the zoom level)
-//        val zoomLevel = 12.0f
-
-        // Move the camera with zoom to the specified location
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(madrid, zoomLevel))
-
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(madrid))
 
         // Cannot zoom to bounds until the map has a size.
         if (coordinates.size > 0) {
@@ -163,7 +148,13 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
             val bounds = bld.build()
             mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 70))
         }
+    }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        mMap.uiSettings.isMyLocationButtonEnabled = true
+        mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.uiSettings.isCompassEnabled = true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
