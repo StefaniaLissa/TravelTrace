@@ -22,6 +22,9 @@
         android:theme="@style/Theme.TravelTrace"
         tools:targetApi="31">
         <activity
+            android:name=".view.TripfromMulti.TripfromMultiMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.trip.CreateTripActivity"
             android:exported="false" />
         <activity

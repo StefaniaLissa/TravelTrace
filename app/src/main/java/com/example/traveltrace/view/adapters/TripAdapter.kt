@@ -18,6 +18,8 @@ import com.example.traveltrace.R
 import com.example.traveltrace.model.data.Trip
 import com.example.traveltrace.view.trip.DetailedTripActivity
 import com.example.traveltrace.viewmodel.TripViewModel
+import com.example.traveltrace.viewmodel.UserViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -26,6 +28,7 @@ import java.util.Locale
 class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
 //    private val tripArrayList = ArrayList<Trip>()
     private val tripArrayList = mutableListOf<Trip>()
+    lateinit var editorsViewModel : UserViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
         val itemView =
@@ -78,17 +81,37 @@ class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
         }
 
     holder.bt_delete.setOnClickListener {
-        FirebaseFirestore.getInstance()
-            .collection("trips")
-            .document(trip.id!!)
-            .delete()
-            .addOnSuccessListener { // Add a success listener after deletion
-                // Update the adapter with the new data (trip deleted)
-                TripViewModel().allTrips.observe( holder.itemView.context as LifecycleOwner, Observer {
-//                    tripAdapter.updateTripList(it);
-                    tripArrayList.addAll(it)
-                });
-            }
+
+        editorsViewModel.loadEditors(trip.id.toString())
+        editorsViewModel.allEditors.observe( holder.itemView.context as LifecycleOwner, Observer {
+
+                val user = FirebaseAuth.getInstance().currentUser!!
+                FirebaseFirestore.getInstance()
+                    .collection("members")
+                    .whereEqualTo("tripID", trip.id.toString())
+                    .whereEqualTo("userID", user.uid.toString())
+                    .get()
+                    .addOnSuccessListener {
+                        //Solo será uno
+                        for (doc in it){
+                            FirebaseFirestore.getInstance()
+                                .collection("members")
+                                .document(doc.id)
+                                .delete()
+                        }
+                    }
+
+                FirebaseFirestore.getInstance()
+                    .collection("trips")
+                    .document(trip.id!!)
+                    .delete()
+                    .addOnSuccessListener {
+                        TripViewModel().allTrips.observe( holder.itemView.context as LifecycleOwner, Observer {
+                            tripArrayList.addAll(it)
+                        });
+                    }
+
+        })
         tripArrayList.removeAt(position)
         this.notifyDataSetChanged()
     }
