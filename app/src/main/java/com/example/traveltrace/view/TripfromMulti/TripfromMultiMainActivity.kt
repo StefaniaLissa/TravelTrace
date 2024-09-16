@@ -16,8 +16,8 @@ class TripfromMultiMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tripfrom_multi_main)
 
-        photoUpload = PhotosUpload(this, "jYsci0ThEz4jLKpPmD1u", " ")
 
+        photoUpload = PhotosUpload(this, "jYsci0ThEz4jLKpPmD1u", " ")
         photoUpload.uploadTripCover(true)
 
     }

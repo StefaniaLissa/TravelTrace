@@ -13,13 +13,13 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
-            android:id="@+id/button"
-            android:padding="@dimen/padding_touch_min"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="Test"
-            android:text="Test UploadPhotos" />
+<!--        <Button-->
+<!--            android:id="@+id/button"-->
+<!--            android:padding="@dimen/padding_touch_min"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:onClick="Test"-->
+<!--            android:text="Test UploadPhotos" />-->
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private lateinit var button: Button
+//    private lateinit var button: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,12 +43,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        button = findViewById(R.id.button)
-
-        button.setOnClickListener {
-            var intent = Intent(this@MainActivity, TripfromMultiMainActivity::class.java )
-            startActivity(intent)
-        }
+//        button = findViewById(R.id.button)
+//
+//        button.setOnClickListener {
+//            var intent = Intent(this@MainActivity, TripfromMultiMainActivity::class.java )
+//            startActivity(intent)
+//        }
 
         //Load User
 //        var user = FirebaseFirestore.getInstance()

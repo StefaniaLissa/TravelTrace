@@ -20,6 +20,7 @@ import androidx.core.view.isVisible
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.google.longrunning.WaitOperationRequest
 
 class PhotosUpload(private val activity: AppCompatActivity, tripID: String, stopID: String) {
 
@@ -45,12 +46,14 @@ class PhotosUpload(private val activity: AppCompatActivity, tripID: String, stop
 
     fun uploadTripCover(camera: Boolean) {
         if (camera){
-            cameraPermission { openCamera(multiple) }
+            cameraPermission {
+                openCamera(multiple)
+            }
         } else {
             galleryPermission { openGallery(multiple) }
         }
         //Fire - Base & Store
-        if (uri  != null) {
+        if (uri.toString().isNotBlank()) {
             //Save Image in Firebase Store
             rutaImagen = "TripCover/"+tripID+"/"+System.currentTimeMillis()
             val referenceStorage = FirebaseStorage.getInstance().getReference(rutaImagen)
@@ -138,7 +141,7 @@ class PhotosUpload(private val activity: AppCompatActivity, tripID: String, stop
         cameraActivityResultLauncher.launch(intent)
     }
 
-    private val galleryPermission =
+     val galleryPermission =
         activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
             if (permission) {
                 openGallery(multiple)
@@ -151,7 +154,7 @@ class PhotosUpload(private val activity: AppCompatActivity, tripID: String, stop
             }
         }
 
-    private val cameraPermission =
+     val cameraPermission =
         activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
             if (permission) {
                 openCamera(multiple)
@@ -165,7 +168,7 @@ class PhotosUpload(private val activity: AppCompatActivity, tripID: String, stop
 
         }
 
-    private val galleryActivityResultLauncher = activity.registerForActivityResult(
+     val galleryActivityResultLauncher = activity.registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
         ActivityResultCallback<ActivityResult> { result ->
             if (result.resultCode == RESULT_OK) {
@@ -198,7 +201,7 @@ class PhotosUpload(private val activity: AppCompatActivity, tripID: String, stop
     )
 
 
-    private val cameraActivityResultLauncher =
+     val cameraActivityResultLauncher =
         activity.registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
                 val data = result.data

@@ -25,6 +25,9 @@
             android:name=".view.stop.EditStopActivity"
             android:exported="false" />
         <activity
+            android:name=".view.TripfromMulti.TripfromMultiMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.trip.CreateTripActivity"
             android:exported="false" />
         <activity
