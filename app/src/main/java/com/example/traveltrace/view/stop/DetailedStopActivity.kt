@@ -4,15 +4,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveltrace.R
 import com.example.traveltrace.model.data.Stop
+import com.example.traveltrace.view.adapters.ImageAdapter
 import com.example.traveltrace.viewmodel.StopViewModel
+import com.example.traveltrace.viewmodel.TripViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -20,6 +25,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -56,23 +62,24 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
         stopViewModel.loadStop(tripID, stopID)
         stopViewModel.stop.observe(this, Observer {
             if (it != null) {
-                tv_name.text  = it.name
+                tv_name.text = it.name
 
                 var calendar = Calendar.getInstance()
                 calendar.time = Date(it.timestamp!!.seconds * 1000)
 
-                tv_date.text =  calendar.get(Calendar.DAY_OF_MONTH).toString() + "/" +
-                                calendar.get(Calendar.MONTH).toString() + "/" +
+                tv_date.text =  String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH)) + "/" +
+                                String.format("%02d", calendar.get(Calendar.MONTH)) + "/" +
                                 calendar.get(Calendar.YEAR).toString()
 
-                tv_time.text =  calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" +
-                                calendar.get(Calendar.MINUTE).toString()
+                tv_time.text =  String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
+                                String.format("%02d", calendar.get(Calendar.MINUTE))
 
-                tv_place.text  = it.namePlace.toString()
-                tv_address.text  = it.namePlace.toString()
-                tv_notes.text  = it.text
+                tv_place.text = it.namePlace.toString()
+                tv_address.text = it.namePlace.toString()
+                tv_notes.text = it.text
                 stop = it
                 setupMap()
+                loadMultimedia()
             }
         })
 
@@ -82,7 +89,19 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Toolbar
         setSupportActionBar(toolbar)
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar()?.setDisplayShowHomeEnabled(true);
 
+    }
+
+    private fun loadMultimedia() {
+        if (!stop?.photos.isNullOrEmpty()) {
+            val layoutManager =
+                LinearLayoutManager(rv_images.context, LinearLayoutManager.HORIZONTAL, false)
+            var adapter = ImageAdapter(stop?.photos!!)
+            rv_images.layoutManager = layoutManager
+            rv_images.adapter = adapter
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -105,11 +124,35 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            R.id.delete -> {
+                deleteStop()
+            }
+        }
+        return true
+    }
+
+    private fun deleteStop() {
+        FirebaseFirestore.getInstance()
+            .collection("trips")
+            .document(tripID)
+            .collection("stops")
+            .document(stopID)
+            .delete()
+            .addOnSuccessListener {
+                finish()
+            }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.stop_toolbar, menu)
         return true
     }
-
 
     private fun initLateinit() {
 

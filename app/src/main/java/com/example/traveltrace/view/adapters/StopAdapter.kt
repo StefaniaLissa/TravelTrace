@@ -75,8 +75,8 @@ class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
             var calendar = Calendar.getInstance()
             var stopDate = Date(stop.timestamp!!.seconds * 1000)
             calendar.setTime(stopDate)
-            holder.time.text = calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" + calendar.get(Calendar.MINUTE).toString()
-            holder.day.text = calendar.get(Calendar.DAY_OF_MONTH).toString()
+            holder.time.text = String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY)) + ":" + String.format("%02d", calendar.get(Calendar.MINUTE))
+            holder.day.text = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
             holder.month.text = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
             holder.year.text = calendar.get(Calendar.YEAR).toString()
         }

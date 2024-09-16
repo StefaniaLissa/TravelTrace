@@ -75,7 +75,8 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="@string/stop_cover"
                 android:cropToPadding="false"
-                android:foreground="#40000000"
+                app:tint="#B6B6B6"
+                android:tintMode="multiply"
                 android:maxHeight="40sp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/img_cover_travel_trace" />
