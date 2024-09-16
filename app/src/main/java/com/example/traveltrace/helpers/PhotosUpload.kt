@@ -42,16 +42,43 @@ class PhotosUpload(private val activity: AppCompatActivity, tripID: String, stop
         } else if (tripID.isNullOrBlank() and stopID.isNullOrBlank() ){
             multiple = true
         }
+
+        val cameraPermission =
+            activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
+                if (permission) {
+                    openCamera(multiple)
+                } else {
+                    Toast.makeText(
+                        activity.applicationContext,
+                        "El permiso para acceder a la cámara no ha sido concedido",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
+
+
+        fun cameraPermission(onPermissionGranted: () -> Unit) {
+            if (ContextCompat.checkSelfPermission(
+                    activity,
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                onPermissionGranted()
+            } else {
+                cameraPermission.launch(Manifest.permission.CAMERA)
+            }
+        }
     }
 
     fun uploadTripCover(camera: Boolean) {
-        if (camera){
-            cameraPermission {
-                openCamera(multiple)
-            }
-        } else {
-            galleryPermission { openGallery(multiple) }
-        }
+//        if (camera){
+//            cameraPermission {
+//                openCamera(multiple)
+//            }
+//        } else {
+//            galleryPermission { openGallery(multiple) }
+//        }
         //Fire - Base & Store
         if (uri.toString().isNotBlank()) {
             //Save Image in Firebase Store
@@ -87,17 +114,6 @@ class PhotosUpload(private val activity: AppCompatActivity, tripID: String, stop
     }
 
 
-    fun cameraPermission(onPermissionGranted: () -> Unit) {
-        if (ContextCompat.checkSelfPermission(
-                activity,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            onPermissionGranted()
-        } else {
-            cameraPermission.launch(Manifest.permission.CAMERA)
-        }
-    }
 
     fun galleryPermission(onPermissionGranted: () -> Unit) {
         if (ContextCompat.checkSelfPermission(
@@ -154,19 +170,7 @@ class PhotosUpload(private val activity: AppCompatActivity, tripID: String, stop
             }
         }
 
-     val cameraPermission =
-        activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
-            if (permission) {
-                openCamera(multiple)
-            } else {
-                Toast.makeText(
-                    activity.applicationContext,
-                    "El permiso para acceder a la cámara no ha sido concedido",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
 
-        }
 
      val galleryActivityResultLauncher = activity.registerForActivityResult(
         ActivityResultContracts.StartActivityForResult(),

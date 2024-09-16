@@ -54,7 +54,7 @@ class CreateTripActivity : AppCompatActivity() {
     private lateinit var user: FirebaseUser
     private lateinit var tripId: String
 
-//    private lateinit var photoUpload: PhotosUpload
+    //private lateinit var photoUpload: PhotosUpload
 
 
     private val photoUpload by lazy { PhotosUpload(this, tripId, "") }
@@ -67,7 +67,7 @@ class CreateTripActivity : AppCompatActivity() {
         )
         db.collection("trips").add(trip).addOnSuccessListener {
             tripId = it.id
-//            photoUpload = PhotosUpload(this@CreateTripActivity, tripId, " ")
+            //photoUpload = PhotosUpload(this@CreateTripActivity, tripId, " ")
         }.await()
     }
 
@@ -79,6 +79,9 @@ class CreateTripActivity : AppCompatActivity() {
         GlobalScope.launch {
             start()
         }
+
+//        photoUpload = PhotosUpload(this@CreateTripActivity, tripId, " ")
+
 
         //Cambiar imagen
         btn_new_image.setOnClickListener{
