@@ -8,6 +8,7 @@ data class Stop(
     var timestamp:Timestamp?=null,
     var idPlace:String?=null,
     var namePlace:String?=null,
+    var addressPlace:String?=null,
     var geoPoint: GeoPoint?=null,
     var text:String?=null,
     var photos:ArrayList<String>?=null

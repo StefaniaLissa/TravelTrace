@@ -8,6 +8,12 @@
     android:padding="@dimen/padding_ll_std"
     tools:context=".view.trip.CreateTripActivity">
 
+
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <ImageView
         android:id="@+id/iv_cover"
         android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.example.traveltrace.view.stop
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveltrace.R
+import com.example.traveltrace.helpers.PhotoUploadFragment
 import com.example.traveltrace.model.data.Stop
 import com.example.traveltrace.view.adapters.ImageAdapter
 import com.example.traveltrace.viewmodel.StopViewModel
@@ -75,7 +77,7 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
                                 String.format("%02d", calendar.get(Calendar.MINUTE))
 
                 tv_place.text = it.namePlace.toString()
-                tv_address.text = it.namePlace.toString()
+                tv_address.text = it.addressPlace.toString()
                 tv_notes.text = it.text
                 stop = it
                 setupMap()
@@ -106,9 +108,9 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.uiSettings.isMyLocationButtonEnabled = true
-        mMap.uiSettings.isZoomControlsEnabled = true
-        mMap.uiSettings.isCompassEnabled = true
+        mMap.uiSettings.isMyLocationButtonEnabled = false
+        mMap.uiSettings.isZoomControlsEnabled = false
+        mMap.uiSettings.isCompassEnabled = false
 
     }
 
@@ -120,7 +122,7 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
             val bld = LatLngBounds.Builder()
             bld.include(latLng)
             val bounds = bld.build()
-            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 1))
         }
     }
 
@@ -133,9 +135,41 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
             R.id.delete -> {
                 deleteStop()
             }
+            R.id.edit -> {
+                editStop()
+            }
+			R.id.share -> {
+				// TODO: Compartir en redes sociales
+				// https://abskmhswri-er.medium.com/android-app-share-multiple-files-to-instagram-be8ed12a652a
+				// https://stackoverflow.com/questions/12952865/how-to-share-text-to-whatsapp-from-my-app
+			}
+			R.id.addImg -> {
+				addImg()
+			}
         }
         return true
     }
+	
+	private fun addImg(){
+		 val fragment = PhotoUploadFragment()
+            val bundle = Bundle()
+            bundle.putString("tripID", tripID)
+            bundle.putString("stopID", stopID)
+            fragment.arguments = bundle
+            supportFragmentManager.beginTransaction()
+                .add(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit()
+	}
+	
+	private fun editStop(){
+		val intent = Intent(this@DetailedStopActivity, EditStopActivity::class.java)
+            intent.putExtra("tripID", tripID)
+            intent.putExtra("stopID", stopID)
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+	}
 
     private fun deleteStop() {
         FirebaseFirestore.getInstance()

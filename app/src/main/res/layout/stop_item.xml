@@ -6,7 +6,28 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:orientation="vertical">
+    
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_delete"
+        android:layout_width="80sp"
+        android:layout_height="180sp"
+        android:layout_gravity="end"
+        android:layout_margin="10dp"
+        android:backgroundTint="@color/red"
+        android:clickable="true"
+        android:minHeight="109dp"
+        android:visibility="gone"
+        app:cardCornerRadius="10dp">
 
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_delete_outline"
+            android:clickable="true"/>
+
+    </androidx.cardview.widget.CardView>
+    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -126,43 +147,43 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_flight"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+<!--             <LinearLayout -->
+<!--                 android:id="@+id/ll_flight" -->
+<!--                 android:layout_width="250dp" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:orientation="horizontal"> -->
 
-                <TextView
-                    android:id="@+id/tvFrom"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_flight_takeoff"
-                    android:drawablePadding="@dimen/font_std"
-                    android:gravity="left"
-                    android:padding="@dimen/rv_items"
-                    android:textSize="@dimen/font_std" />
+<!--                 <TextView -->
+<!--                     android:id="@+id/tvFrom" -->
+<!--                     android:layout_width="0dp" -->
+<!--                     android:layout_height="wrap_content" -->
+<!--                     android:layout_gravity="left" -->
+<!--                     android:layout_weight="1" -->
+<!--                     android:drawableLeft="@drawable/ic_flight_takeoff" -->
+<!--                     android:drawablePadding="@dimen/font_std" -->
+<!--                     android:gravity="left" -->
+<!--                     android:padding="@dimen/rv_items" -->
+<!--                     android:textSize="@dimen/font_std" /> -->
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_flight" />
+<!--                 <ImageView -->
+<!--                     android:layout_width="wrap_content" -->
+<!--                     android:layout_height="match_parent" -->
+<!--                     android:src="@drawable/ic_flight" /> -->
 
 
-                <TextView
-                    android:id="@+id/tvTo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="1"
-                    android:drawableRight="@drawable/ic_flight_land"
-                    android:drawablePadding="@dimen/font_std"
-                    android:gravity="right"
-                    android:padding="@dimen/rv_items"
-                    android:textSize="@dimen/font_std" />
+<!--                 <TextView -->
+<!--                     android:id="@+id/tvTo" -->
+<!--                     android:layout_width="0dp" -->
+<!--                     android:layout_height="wrap_content" -->
+<!--                     android:layout_gravity="right" -->
+<!--                     android:layout_weight="1" -->
+<!--                     android:drawableRight="@drawable/ic_flight_land" -->
+<!--                     android:drawablePadding="@dimen/font_std" -->
+<!--                     android:gravity="right" -->
+<!--                     android:padding="@dimen/rv_items" -->
+<!--                     android:textSize="@dimen/font_std" /> -->
 
-            </LinearLayout>
+<!--             </LinearLayout> -->
 
 
         </LinearLayout>

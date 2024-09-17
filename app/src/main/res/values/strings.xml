@@ -63,4 +63,6 @@
     <string name="editar">Editar</string>
     <string name="compartir">Compartir</string>
     <string name="a_adir_im_genes">Añadir Imágenes</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -263,70 +263,70 @@
 
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/cb_flight"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/touch_min"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="@dimen/margin_touch_min"
-            android:layout_marginEnd="@dimen/margin_touch_min"
-            android:layout_marginBottom="@dimen/margin_touch_min"
-            android:checked="false"
-            android:layoutDirection="rtl"
-            android:text="@string/vuelo"
-            android:textSize="@dimen/title_20" />
+<!--         <CheckBox -->
+<!--             android:id="@+id/cb_flight" -->
+<!--             android:layout_width="match_parent" -->
+<!--             android:layout_height="@dimen/touch_min" -->
+<!--             android:layout_marginStart="15dp" -->
+<!--             android:layout_marginTop="@dimen/margin_touch_min" -->
+<!--             android:layout_marginEnd="@dimen/margin_touch_min" -->
+<!--             android:layout_marginBottom="@dimen/margin_touch_min" -->
+<!--             android:checked="false" -->
+<!--             android:layoutDirection="rtl" -->
+<!--             android:text="@string/vuelo" -->
+<!--             android:textSize="@dimen/title_20" /> -->
 
-        <LinearLayout
-            android:id="@+id/ll_flight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_touch_min"
-            android:orientation="vertical"
-            android:visibility="gone">
+<!--         <LinearLayout -->
+<!--             android:id="@+id/ll_flight" -->
+<!--             android:layout_width="match_parent" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_marginStart="@dimen/margin_touch_min" -->
+<!--             android:orientation="vertical" -->
+<!--             android:visibility="gone"> -->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_touch_min"
-                android:gravity="fill_horizontal"
-                android:orientation="horizontal">
+<!--             <LinearLayout -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_margin="@dimen/margin_touch_min" -->
+<!--                 android:gravity="fill_horizontal" -->
+<!--                 android:orientation="horizontal"> -->
 
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:text="@string/de"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/title_20" />
+<!--                 <TextView -->
+<!--                     android:layout_width="40dp" -->
+<!--                     android:layout_height="match_parent" -->
+<!--                     android:text="@string/de" -->
+<!--                     android:textColor="@color/white" -->
+<!--                     android:textSize="@dimen/title_20" /> -->
 
-                <SearchView
-                    android:id="@+id/sv_from"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layoutDirection="rtl" />
-            </LinearLayout>
+<!--                 <SearchView -->
+<!--                     android:id="@+id/sv_from" -->
+<!--                     android:layout_width="match_parent" -->
+<!--                     android:layout_height="wrap_content" -->
+<!--                     android:layoutDirection="rtl" /> -->
+<!--             </LinearLayout> -->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_touch_min"
-                android:gravity="fill_horizontal"
-                android:orientation="horizontal">
+<!--             <LinearLayout -->
+<!--                 android:layout_width="match_parent" -->
+<!--                 android:layout_height="wrap_content" -->
+<!--                 android:layout_margin="@dimen/margin_touch_min" -->
+<!--                 android:gravity="fill_horizontal" -->
+<!--                 android:orientation="horizontal"> -->
 
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:text="@string/a"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/title_20" />
+<!--                 <TextView -->
+<!--                     android:layout_width="40dp" -->
+<!--                     android:layout_height="match_parent" -->
+<!--                     android:text="@string/a" -->
+<!--                     android:textColor="@color/white" -->
+<!--                     android:textSize="@dimen/title_20" /> -->
 
-                <SearchView
-                    android:id="@+id/sv_to"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layoutDirection="rtl" />
-            </LinearLayout>
+<!--                 <SearchView -->
+<!--                     android:id="@+id/sv_to" -->
+<!--                     android:layout_width="match_parent" -->
+<!--                     android:layout_height="wrap_content" -->
+<!--                     android:layoutDirection="rtl" /> -->
+<!--             </LinearLayout> -->
 
-        </LinearLayout>
+<!--         </LinearLayout> -->
 
     </LinearLayout>
 

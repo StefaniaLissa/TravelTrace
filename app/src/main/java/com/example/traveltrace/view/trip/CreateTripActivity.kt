@@ -24,8 +24,10 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveltrace.R
+import com.example.traveltrace.helpers.PhotoUploadFragment
 import com.example.traveltrace.helpers.PhotosUpload
 import com.example.traveltrace.view.MainActivity
+import com.example.traveltrace.view.stop.CreateStopActivity
 import com.example.traveltrace.viewmodel.StopViewModel
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -59,7 +61,11 @@ class CreateTripActivity : AppCompatActivity() {
 
     private val photoUpload by lazy { PhotosUpload(this, tripId, "") }
 
-    suspend fun start() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_create_trip)
+        init()
+
         //Crear Trip Vacío
         val trip = hashMapOf(
             "name" to "",
@@ -67,28 +73,23 @@ class CreateTripActivity : AppCompatActivity() {
         )
         db.collection("trips").add(trip).addOnSuccessListener {
             tripId = it.id
-            //photoUpload = PhotosUpload(this@CreateTripActivity, tripId, " ")
-        }.await()
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_create_trip)
-        init()
-
-        GlobalScope.launch {
-            start()
         }
-
-//        photoUpload = PhotosUpload(this@CreateTripActivity, tripId, " ")
-
 
         //Cambiar imagen
         btn_new_image.setOnClickListener{
-            CameraOrGalleryDialog()
+//            CameraOrGalleryDialog()
+            val fragment = PhotoUploadFragment()
+            val bundle = Bundle()
+            bundle.putString("tripID", tripId)
+            bundle.putString("stopID", "")
+            fragment.arguments = bundle
+            supportFragmentManager.beginTransaction()
+                .add(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit()
         }
         iv_cover.setOnClickListener{
-            CameraOrGalleryDialog()
+//            CameraOrGalleryDialog()
         }
         // Compartir
         cb_share.setOnCheckedChangeListener { compoundButton, b ->
@@ -167,47 +168,49 @@ class CreateTripActivity : AppCompatActivity() {
 
     }
 
-    private fun CameraOrGalleryDialog() {
-        iv_cover.background = null
-        val btn_gallery: Button
-        val btn_camera: Button
-
-        val dialog = Dialog(this@CreateTripActivity)
-
-        dialog.setContentView(R.layout.select_img)
-
-        btn_gallery = dialog.findViewById(R.id.btn_gallery)
-        btn_camera = dialog.findViewById(R.id.btn_camera)
-
-//        btn_gallery.setOnClickListener {
-//            //Toast.makeText(applicationContext, "Abrir galería", Toast.LENGTH_SHORT).show()
-//            if (ContextCompat.checkSelfPermission( applicationContext,
-//                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-//            ) {
-//                openGallery()
-//                dialog.dismiss()
-//            } else {
-//                galleryPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-//            }
+//    private fun CameraOrGalleryDialog() {
+//        iv_cover.background = null
+//        val btn_gallery: Button
+//        val btn_camera: Button
+//
+//        val dialog = Dialog(this@CreateTripActivity)
+//
+//        dialog.setContentView(R.layout.select_img)
+//
+//        btn_gallery = dialog.findViewById(R.id.btn_gallery)
+//        btn_camera = dialog.findViewById(R.id.btn_camera)
+//
+////        btn_gallery.setOnClickListener {
+////            //Toast.makeText(applicationContext, "Abrir galería", Toast.LENGTH_SHORT).show()
+////            if (ContextCompat.checkSelfPermission( applicationContext,
+////                    Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+////            ) {
+////                openGallery()
+////                dialog.dismiss()
+////            } else {
+////                galleryPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+////            }
+////
+////        }
+//
+//        btn_camera.setOnClickListener {
+//            //Toast.makeText(applicationContext, "Abrir cámara", Toast.LENGTH_SHORT).show()
+////            if (ContextCompat.checkSelfPermission(
+////                    applicationContext,
+////                    Manifest.permission.CAMERA
+////                ) == PackageManager.PERMISSION_GRANTED
+////            ) {
+////                openCamera()
+////                dialog.dismiss()
+////            } else {
+////                cameraPermission.launch(Manifest.permission.CAMERA)
+////            }
+////            photoUpload.uploadTripCover(true)
+//
 //
 //        }
-
-        btn_camera.setOnClickListener {
-            //Toast.makeText(applicationContext, "Abrir cámara", Toast.LENGTH_SHORT).show()
-//            if (ContextCompat.checkSelfPermission(
-//                    applicationContext,
-//                    Manifest.permission.CAMERA
-//                ) == PackageManager.PERMISSION_GRANTED
-//            ) {
-//                openCamera()
-//                dialog.dismiss()
-//            } else {
-//                cameraPermission.launch(Manifest.permission.CAMERA)
-//            }
-            photoUpload.uploadTripCover(true)
-        }
-        dialog.show()
-    }
+//        dialog.show()
+//    }
 
 //    private fun UpdateFirestore(url: String) {
 //        FirebaseFirestore.getInstance()
@@ -316,4 +319,23 @@ class CreateTripActivity : AppCompatActivity() {
         user = FirebaseAuth.getInstance().currentUser!!
         uriString = String()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // Check if the trip is not created (i.e., the name is still empty)
+        if (et_name.text.isEmpty()) {
+            // Delete the trip from Firestore
+            db.collection("trips")
+                .document(tripId)
+                .delete()
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Unsaved trip deleted", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Failed to delete unsaved trip: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
 }

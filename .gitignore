@@ -27,3 +27,5 @@ build.gradle.kts
 .idea/other.xml
 build.gradle.kts
 build.gradle.kts
+.idea
+/.idea

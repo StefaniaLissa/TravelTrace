@@ -57,10 +57,10 @@ class CreateStopActivity : AppCompatActivity() {
     private lateinit var ll_expenses: LinearLayout
     private lateinit var spr_category: Spinner
     private lateinit var et_amount: EditText
-    private lateinit var cb_flight: CheckBox
-    private lateinit var ll_flight: LinearLayout
-    private lateinit var sv_from: SearchView
-    private lateinit var sv_to: SearchView
+//    private lateinit var cb_flight: CheckBox
+//    private lateinit var ll_flight: LinearLayout
+//    private lateinit var sv_from: SearchView
+//    private lateinit var sv_to: SearchView
     private lateinit var btn_gallery: Button
     private lateinit var btn_camera: Button
     private lateinit var sv_images: ScrollView
@@ -82,6 +82,7 @@ class CreateStopActivity : AppCompatActivity() {
     private var placeFragment: AutocompleteSupportFragment? = null
     private var idPlace: String = ""
     private var namePlace: String = ""
+    private var addressPlace: String = ""
     private var geoPoint: GeoPoint = GeoPoint(0.0, 0.0)
 
     private lateinit var minTimestamp: Timestamp
@@ -133,6 +134,7 @@ class CreateStopActivity : AppCompatActivity() {
             override fun onPlaceSelected(place: Place) {
                 idPlace = place.id.toString()
                 namePlace = place.name.toString()
+                addressPlace = place.address.toString()
                 geoPoint = GeoPoint(place.latLng.latitude, place.latLng.longitude)
 
             }
@@ -217,6 +219,7 @@ class CreateStopActivity : AppCompatActivity() {
                 "timestamp" to timestamp_fb,
                 "idPlace" to idPlace,
                 "namePlace" to namePlace,
+                "addressPlace" to addressPlace,
                 "geoPoint" to geoPoint
             )
 
@@ -391,10 +394,10 @@ class CreateStopActivity : AppCompatActivity() {
         ll_expenses = findViewById(R.id.ll_expenses)
         spr_category = findViewById(R.id.spr_category)
         et_amount = findViewById(R.id.et_amount)
-        cb_flight = findViewById(R.id.cb_flight)
-        ll_flight = findViewById(R.id.ll_flight)
-        sv_from = findViewById(R.id.sv_from)
-        sv_to = findViewById(R.id.sv_to)
+//        cb_flight = findViewById(R.id.cb_flight)
+//        ll_flight = findViewById(R.id.ll_flight)
+//        sv_from = findViewById(R.id.sv_from)
+//        sv_to = findViewById(R.id.sv_to)
         btn_gallery = findViewById(R.id.btn_gallery)
         btn_camera = findViewById(R.id.btn_camera)
         rv_images = findViewById(R.id.rv_images)
