@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -76,9 +77,24 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
                 tv_time.text =  String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY)) + ":" +
                                 String.format("%02d", calendar.get(Calendar.MINUTE))
 
-                tv_place.text = it.namePlace.toString()
-                tv_address.text = it.addressPlace.toString()
-                tv_notes.text = it.text
+                if (it.namePlace.toString().isNotBlank()){
+                    tv_place.text = it.namePlace.toString()
+                } else {
+                    tv_place.visibility = View.GONE
+                }
+
+                if (it.addressPlace.toString().isNotBlank()) {
+                    tv_address.text = it.addressPlace.toString()
+                } else {
+                    tv_address.visibility = View.GONE
+                }
+
+                if (it.text.toString().isNotBlank()) {
+                    tv_notes.text = it.text
+                } else {
+                    tv_notes.visibility = View.GONE
+                }
+
                 stop = it
                 setupMap()
                 loadMultimedia()
@@ -164,11 +180,11 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
 	
 	private fun editStop(){
 		val intent = Intent(this@DetailedStopActivity, EditStopActivity::class.java)
-            intent.putExtra("tripID", tripID)
-            intent.putExtra("stopID", stopID)
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(intent)
-            finish()
+        intent.putExtra("tripID", tripID)
+        intent.putExtra("stopID", stopID)
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
 	}
 
     private fun deleteStop() {
