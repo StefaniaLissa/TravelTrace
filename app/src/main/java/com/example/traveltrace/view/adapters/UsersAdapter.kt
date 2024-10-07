@@ -40,10 +40,10 @@ class UsersAdapter(tripID:String) : RecyclerView.Adapter<UsersAdapter.UsersViewH
         }
     }
 
-    fun setFilteredList(userList : List<User>){
-        this.usersList = usersList
-        notifyDataSetChanged()
-    }
+//    fun setFilteredList(userList : List<User>){
+//        this.usersList = usersList
+//        notifyDataSetChanged()
+//    }
 
     fun updateUsersList(userList : List<User>){
         this.usersList.clear()

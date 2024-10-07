@@ -1,9 +1,12 @@
 package com.example.traveltrace.view.stop
 
+import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
@@ -13,18 +16,32 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.traveltrace.R
 import com.example.traveltrace.model.data.Stop
 import com.example.traveltrace.view.adapters.ImageAdapter
 import com.example.traveltrace.viewmodel.StopViewModel
 import com.google.android.gms.common.api.Status
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.tasks.Task
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
@@ -33,13 +50,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.storage.FirebaseStorage
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class EditStopActivity : AppCompatActivity() {
+class EditStopActivity : AppCompatActivity(), OnMapReadyCallback {
 
-
+    //XML
     private lateinit var et_name: EditText
     private lateinit var et_description: EditText
     private lateinit var cb_expenses: CheckBox
@@ -64,27 +82,35 @@ class EditStopActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
     private var uri: Uri? = null
 
+    //Multimedia
     private lateinit var adapter: ImageAdapter
     private lateinit var layoutManager: GridLayoutManager
     private lateinit var imagesList: ArrayList<String>
 
+    //Ubicación
     private var placeFragment: AutocompleteSupportFragment? = null
     private var idPlace: String = ""
     private var namePlace: String = ""
     private var addressPlace: String = ""
     private var geoPoint: GeoPoint = GeoPoint(0.0, 0.0)
+    private lateinit var mapManager: SupportMapFragment
+    private lateinit var mMap: GoogleMap
+    private lateinit var latLng: LatLng
 
+    //Trip & Stop
     private lateinit var tripID: String
     private lateinit var stopID: String
-
     private lateinit var stop: Stop
+    private lateinit var oldStop: Stop
     private lateinit var stopViewModel: StopViewModel
+
+    //Other
+    private lateinit var initDate: Timestamp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_stop)
         init()
-
 
         // Recuperar API KEY
         val ai: ApplicationInfo? = applicationContext.packageManager
@@ -98,6 +124,9 @@ class EditStopActivity : AppCompatActivity() {
             Places.initialize(applicationContext, apiKey)
         }
 
+        //Mapa
+        mapManager = supportFragmentManager.findFragmentById(R.id.mapStop) as SupportMapFragment
+        mapManager.getMapAsync(this)
 
         placeFragment!!.setPlaceFields(
             listOf(
@@ -127,7 +156,71 @@ class EditStopActivity : AppCompatActivity() {
         })
 
 
+        //Guardar
+        fab_done.setOnClickListener {
+            val stop = hashMapOf(
+                "name" to et_name.text.toString(),
+                "text" to et_description.text.toString(),
+                "timestamp" to timestamp_fb,
+                "idPlace" to idPlace,
+                "namePlace" to namePlace,
+                "addressPlace" to addressPlace,
+                "geoPoint" to geoPoint
+            )
 
+            // Agregar a la colección con nuevo ID
+            db.collection("trips")
+                .document(tripID)
+                .collection("stops")
+                .document(stopID)
+                .update(stop as Map<String, Any>)
+                .addOnSuccessListener { documentReference ->
+                    Toast.makeText(
+                        applicationContext,
+                        "Se ha registrado con éxito",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    //Subir a Storage
+                    if (imagesList != null) {
+                        for (uri in imagesList) {
+                            val rutaImagen =
+                                "Stop_Image/" + tripID + "/" + stopID + "/" + System.currentTimeMillis()
+                            val referenceStorage =
+                                FirebaseStorage.getInstance().getReference(rutaImagen)
+                            referenceStorage.putFile(uri.toUri()!!).addOnSuccessListener { tarea ->
+                                val uriTarea: Task<Uri> = tarea.storage.downloadUrl
+                                while (!uriTarea.isSuccessful);
+                                val url = "${uriTarea.result}"
+                                UpdateFirestore(url, stopID)
+
+                            }.addOnFailureListener { e ->
+                                Toast.makeText(
+                                    applicationContext,
+                                    "No se ha podido subir la imagen debido a: ${e.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                    //Fecha de Inicio del Viaje Portada
+                    initDate = db.collection("trips").document(tripID)
+                        .get().result.get("initDate") as Timestamp
+
+                    if ((initDate!! > timestamp_fb) or
+                        (initDate == null)
+                    ) {
+                        db.collection("trips")
+                            .document(tripID).update("initDate", timestamp_fb)
+                        // TODO: Exception Handling
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(applicationContext, "${e.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+            finish()
+        }
     }
 
 
@@ -136,6 +229,8 @@ class EditStopActivity : AppCompatActivity() {
         //Get Intent
         tripID = intent.getStringExtra("tripID").toString()
         stopID = intent.getStringExtra("stopID").toString()
+
+        //Trip Initial Date
 
         //Get Stop
         stopViewModel = ViewModelProvider(this).get(StopViewModel::class.java)
@@ -176,14 +271,167 @@ class EditStopActivity : AppCompatActivity() {
         placeFragment =
             supportFragmentManager.findFragmentById(R.id.fg_autocomplete) as AutocompleteSupportFragment?
 
-        //Cargar Fecha y Hora actual
-        calendar = Calendar.getInstance()
+        //Cargar datos de la Stop
+        oldStop = db.collection("trips").document(tripID).collection("stops").document(stopID)
+            .get().result.toObject(Stop::class.java)!!
+
+        et_name.setText(oldStop.name)
+        et_description.setText(oldStop.text)
+
+        //Fecha y Hora
         tv_date.text = SimpleDateFormat(
             "dd 'de' MMMM 'de' yyyy",
             Locale.getDefault()
-        ).format(calendar.timeInMillis)
-        tv_time.text = SimpleDateFormat("HH:mm").format(calendar.timeInMillis)
-        timestamp_fb = Timestamp(calendar.time)
+        ).format(oldStop.timestamp)
+        tv_time.text = SimpleDateFormat("HH:mm").format(oldStop.timestamp)
+        timestamp_fb = oldStop.timestamp!!
+
+        //
+        setupMap()
+        loadMultimedia()
     }
+
+    //Mapa
+
+    private fun setupMap() {
+        if (oldStop != null) {
+            latLng = LatLng(oldStop!!.geoPoint!!.latitude, oldStop!!.geoPoint!!.longitude)
+            mMap.addMarker(MarkerOptions().position(latLng))
+
+            val bld = LatLngBounds.Builder()
+            bld.include(latLng)
+            val bounds = bld.build()
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 1))
+        }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        mMap.uiSettings.isMyLocationButtonEnabled = false
+        mMap.uiSettings.isZoomControlsEnabled = false
+        mMap.uiSettings.isCompassEnabled = false
+
+    }
+
+    //Multimedia
+
+    private fun loadMultimedia() {
+        if (!oldStop?.photos.isNullOrEmpty()) {
+            val layoutManager =
+                LinearLayoutManager(rv_images.context, LinearLayoutManager.HORIZONTAL, false)
+            var adapter = ImageAdapter(oldStop?.photos!!)
+            rv_images.layoutManager = layoutManager
+            rv_images.adapter = adapter
+        }
+    }
+
+    private fun UpdateFirestore(url: String, stopID: String) {
+        val photo = hashMapOf(
+            "url" to url
+        )
+        FirebaseFirestore.getInstance()
+            .collection("trips")
+            .document(intent.getStringExtra("trip").toString())
+            .collection("stops")
+            .document(stopID)
+            .collection("photos")
+            .add(photo)
+            .addOnFailureListener { e ->
+                Toast.makeText(
+                    applicationContext,
+                    "No se ha actualizado su imagen debido a: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        galleryActivityResultLauncher.launch(intent)
+    }
+
+    private fun openCamera() {
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.TITLE, "Titulo")
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Descripcion")
+        uri = contentResolver.insert(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            values
+        )
+
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        cameraActivityResultLauncher.launch(intent)
+    }
+
+
+    private val galleryPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
+            if (permission) {
+                openGallery()
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    "El permiso para acceder a la galería no ha sido concedido",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+
+    private val cameraPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { permission ->
+            if (permission) {
+                openCamera()
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    "El permiso para acceder a la cámara no ha sido concedido",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+        }
+
+    private val galleryActivityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult(),
+        ActivityResultCallback<ActivityResult> { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data = result.data
+                uri = data!!.data
+                //iv_cover.setImageURI(uri)
+                if (data.clipData != null) {
+                    for (i in 0 until data.clipData!!.itemCount) {
+                        val imageUri = data.clipData!!.getItemAt(i).uri.toString()
+                        imagesList.add(imageUri)
+                    }
+                } else {
+                    val imageUri = data.data.toString()
+                    imagesList.add(imageUri)
+                }
+                sv_images.isVisible = true
+                adapter.notifyDataSetChanged()
+            } else {
+                Toast.makeText(applicationContext, "Cancelado por el usuario", Toast.LENGTH_SHORT)
+                    .show()
+
+            }
+
+        }
+    )
+
+    private val cameraActivityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                uri?.let { imagesList.add(it.toString()) }
+                sv_images.isVisible = true
+                adapter.notifyDataSetChanged()
+            } else {
+                Toast.makeText(applicationContext, "Cancelado por el usuario", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
 	
 }

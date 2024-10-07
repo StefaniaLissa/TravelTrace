@@ -31,11 +31,9 @@ class UserRepository {
                 var _users = ArrayList<User>()
                 for (doc in snapshot!!) {
                     val user = doc.toObject(User::class.java)
-                    if (user != null) {
                         user.id = doc.id
                         _users.add(user)
                         users.postValue(_users)
-                    }
                 }
             }
     }
@@ -81,7 +79,7 @@ class UserRepository {
                     return@addSnapshotListener
                 }
                 if (snapshot != null) {
-                    val usr = snapshot?.toObject(User::class.java)
+                    val usr = snapshot.toObject(User::class.java)
                     usr!!.id = snapshot.id
                     user.postValue(usr)
                 }

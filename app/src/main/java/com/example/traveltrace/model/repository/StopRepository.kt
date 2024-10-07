@@ -36,7 +36,6 @@ class StopRepository {
                 var _stops = ArrayList<Stop>()
                 for (doc in snapshot!!) {
                     val stop = doc.toObject(Stop::class.java)
-                    if (stop != null) {
                         stop.id = doc.id
 
                         //get Images
@@ -56,16 +55,13 @@ class StopRepository {
                                 if (photosDoc != null) {
                                     for (doc in photosDoc) {
                                         val photo = doc.toObject(Photo::class.java)
-                                        if (photo != null) {
                                             photoList.add(photo.url.toString())
-                                        }
                                     }
                                 }
                             }
                         stop.photos = photoList
                         _stops.add(stop)
                         mld_stops.postValue(_stops)
-                    }
                 }
             }
     }
@@ -102,9 +98,7 @@ class StopRepository {
                                 if (photosDoc != null) {
                                     for (doc in photosDoc) {
                                         val photo = doc.toObject(Photo::class.java)
-                                        if (photo != null) {
                                             photoList.add(photo.url.toString())
-                                        }
                                     }
                                 }
                             }
@@ -129,12 +123,10 @@ class StopRepository {
                 }
                 for (doc in snapshot!!) {
                     val stop = doc.toObject(Stop::class.java)
-                    if (stop != null) {
                         stop.id = doc.id
                         if (stop.geoPoint != GeoPoint(0.0, 0.0)) {
                             stop.geoPoint?.let { al_coord.add(it) }
                         }
-                    }
                 }
             }
     }

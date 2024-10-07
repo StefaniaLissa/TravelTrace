@@ -125,7 +125,7 @@ class EditTripFragment : Fragment() {
                 //Save Image in Firebase Store
                 val rutaImagen = "TripCover/" + tripID + "/" + System.currentTimeMillis()
                 val referenceStorage = FirebaseStorage.getInstance().getReference(rutaImagen)
-                referenceStorage.putFile(uriString!!.toUri()!!)
+                referenceStorage.putFile(uriString!!.toUri())
                     .addOnSuccessListener { task ->
                         val uriTask: Task<Uri> = task.storage.downloadUrl
                         while (!uriTask.isSuccessful);

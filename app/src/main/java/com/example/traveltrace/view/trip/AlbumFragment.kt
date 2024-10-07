@@ -75,10 +75,8 @@ class AlbumFragment : Fragment() {
                                 if (query != null) {
                                     for(photo in query){
                                         val photo = photo.toObject(Photo::class.java)
-                                        if (photo != null) {
                                             imagesList.add(photo.url.toString())
                                             adapter.notifyDataSetChanged()
-                                        }
                                     }
                                 }
                             }
