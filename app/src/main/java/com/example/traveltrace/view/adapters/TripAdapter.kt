@@ -25,10 +25,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
+class TripAdapter( ) : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
 //    private val tripArrayList = ArrayList<Trip>()
     private val tripArrayList = mutableListOf<Trip>()
-    lateinit var editorsViewModel : UserViewModel
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder {
         val itemView =
@@ -81,25 +80,27 @@ class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
         }
 
     holder.bt_delete.setOnClickListener {
-
-        editorsViewModel.loadEditors(trip.id.toString())
-        editorsViewModel.allEditors.observe( holder.itemView.context as LifecycleOwner, Observer {
-
-                val user = FirebaseAuth.getInstance().currentUser!!
-                FirebaseFirestore.getInstance()
-                    .collection("members")
-                    .whereEqualTo("tripID", trip.id.toString())
-                    .whereEqualTo("userID", user.uid.toString())
-                    .get()
-                    .addOnSuccessListener {
-                        //Solo será uno
-                        for (doc in it){
-                            FirebaseFirestore.getInstance()
-                                .collection("members")
-                                .document(doc.id)
-                                .delete()
-                        }
-                    }
+        //TODO: Splash Screen Asignar Admin al borrar
+//        var editorsViewModel: UserViewModel
+//        editorsViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+//        editorsViewModel.loadEditors(trip.id.toString())
+//        editorsViewModel.allEditors.observe( holder.itemView.context as LifecycleOwner, Observer {
+//
+//                val user = FirebaseAuth.getInstance().currentUser!!
+//                FirebaseFirestore.getInstance()
+//                    .collection("members")
+//                    .whereEqualTo("tripID", trip.id.toString())
+//                    .whereEqualTo("userID", user.uid.toString())
+//                    .get()
+//                    .addOnSuccessListener {
+//                        //Solo será uno
+//                        for (doc in it){
+//                            FirebaseFirestore.getInstance()
+//                                .collection("members")
+//                                .document(doc.id)
+//                                .delete()
+//                        }
+//                    }
 
                 FirebaseFirestore.getInstance()
                     .collection("trips")
@@ -111,7 +112,7 @@ class TripAdapter : RecyclerView.Adapter<TripAdapter.TripViewHolder>() {
                         });
                     }
 
-        })
+//        })
         tripArrayList.removeAt(position)
         this.notifyDataSetChanged()
     }

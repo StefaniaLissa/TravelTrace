@@ -49,6 +49,8 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+// TODO: Colores, AutoCompleteFragment No se puede adaptar
+
 class CreateStopActivity : AppCompatActivity() {
 
     private lateinit var et_name: EditText

@@ -16,6 +16,8 @@ import com.example.traveltrace.view.adapters.TripAdapter
 import com.example.traveltrace.viewmodel.TripViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+//TODO: Agregar Reconocimiento de Lugares significativos de un viaje en carátula
+//TODO: Usar BottomNavigation para navegar entre los fragments
 
 class HomeFragment : Fragment() {
 

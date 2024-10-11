@@ -109,7 +109,7 @@ class StopRepository {
             }
     }
 
-
+// TODO: Unificar en LoadStops y recuperar con todo
     fun loadCoordinates(documentId: String, al_coord: ArrayList<GeoPoint>) {
         FirebaseFirestore.getInstance()
             .collection("trips")

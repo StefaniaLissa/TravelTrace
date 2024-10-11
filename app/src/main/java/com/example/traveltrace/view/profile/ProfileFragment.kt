@@ -22,6 +22,9 @@ import com.example.traveltrace.viewmodel.UserViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+//TODO: Agregar posibilidad de eliminar cuenta,
+//TODO: Agregar posibilidad de editar datos de perfil
+
 class ProfileFragment : Fragment() {
     private lateinit var tv_name: TextView
     private lateinit var tv_email: TextView

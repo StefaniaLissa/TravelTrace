@@ -124,10 +124,6 @@ class EditStopActivity : AppCompatActivity(), OnMapReadyCallback {
             Places.initialize(applicationContext, apiKey)
         }
 
-        //Mapa
-        mapManager = supportFragmentManager.findFragmentById(R.id.mapStop) as SupportMapFragment
-        mapManager.getMapAsync(this)
-
         placeFragment!!.setPlaceFields(
             listOf(
                 Place.Field.NAME,
@@ -272,28 +268,41 @@ class EditStopActivity : AppCompatActivity(), OnMapReadyCallback {
             supportFragmentManager.findFragmentById(R.id.fg_autocomplete) as AutocompleteSupportFragment?
 
         //Cargar datos de la Stop
-        oldStop = db.collection("trips").document(tripID).collection("stops").document(stopID)
-            .get().result.toObject(Stop::class.java)!!
+         db.collection("trips").document(tripID).collection("stops").document(stopID)
+            .get()
+            .addOnSuccessListener { document ->
+                oldStop = document.toObject(Stop::class.java)!!
 
-        et_name.setText(oldStop.name)
-        et_description.setText(oldStop.text)
 
-        //Fecha y Hora
-        tv_date.text = SimpleDateFormat(
-            "dd 'de' MMMM 'de' yyyy",
-            Locale.getDefault()
-        ).format(oldStop.timestamp)
-        tv_time.text = SimpleDateFormat("HH:mm").format(oldStop.timestamp)
-        timestamp_fb = oldStop.timestamp!!
+                et_name.setText(oldStop.name)
+                et_description.setText(oldStop.text)
 
-        //
-        setupMap()
-        loadMultimedia()
+                //Fecha y Hora
+                tv_date.text = SimpleDateFormat(
+                    "dd 'de' MMMM 'de' yyyy",
+                    Locale.getDefault()
+                ).format(oldStop.timestamp!!.toDate())
+                tv_time.text = SimpleDateFormat("HH:mm").format(oldStop.timestamp!!.toDate())
+                timestamp_fb = oldStop.timestamp!!
+
+                //
+                setupMap()
+                loadMultimedia()
+            }
+
     }
 
     //Mapa
 
     private fun setupMap() {
+
+    }
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        mMap.uiSettings.isMyLocationButtonEnabled = false
+        mMap.uiSettings.isZoomControlsEnabled = false
+        mMap.uiSettings.isCompassEnabled = false
         if (oldStop != null) {
             latLng = LatLng(oldStop!!.geoPoint!!.latitude, oldStop!!.geoPoint!!.longitude)
             mMap.addMarker(MarkerOptions().position(latLng))
@@ -302,15 +311,12 @@ class EditStopActivity : AppCompatActivity(), OnMapReadyCallback {
             bld.include(latLng)
             val bounds = bld.build()
             mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 1))
+
+            //Mapa
+            mapManager = supportFragmentManager.findFragmentById(R.id.mapStop) as SupportMapFragment
+            mapManager.getMapAsync(this)
+
         }
-    }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        mMap.uiSettings.isMyLocationButtonEnabled = false
-        mMap.uiSettings.isZoomControlsEnabled = false
-        mMap.uiSettings.isCompassEnabled = false
-
     }
 
     //Multimedia

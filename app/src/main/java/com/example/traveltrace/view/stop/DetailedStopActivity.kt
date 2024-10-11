@@ -139,6 +139,7 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
             bld.include(latLng)
             val bounds = bld.build()
             mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 1))
+            //mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f))
         }
     }
 
@@ -182,7 +183,7 @@ class DetailedStopActivity : AppCompatActivity(), OnMapReadyCallback {
 		val intent = Intent(this@DetailedStopActivity, EditStopActivity::class.java)
         intent.putExtra("tripID", tripID)
         intent.putExtra("stopID", stopID)
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
         finish()
 	}

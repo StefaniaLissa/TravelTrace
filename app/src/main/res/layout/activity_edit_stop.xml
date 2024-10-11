@@ -223,7 +223,8 @@
             android:checked="false"
             android:layoutDirection="rtl"
             android:text="@string/gasto"
-            android:textSize="@dimen/title_20" />
+            android:textSize="@dimen/title_20"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/ll_expenses"

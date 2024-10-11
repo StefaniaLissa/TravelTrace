@@ -29,6 +29,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.GeoPoint
 
+//TODO: Mapa y Recycler Adaptables Bottom Sheets
+//TODO: Mapa en pantalla completa
 
 class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -147,6 +149,9 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
 
             val bounds = bld.build()
             mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 70))
+            if (coordinates.size == 1) {
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(12.5f))
+            }
         }
     }
 
