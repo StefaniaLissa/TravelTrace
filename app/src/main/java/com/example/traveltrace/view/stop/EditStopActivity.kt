@@ -206,8 +206,13 @@ class EditStopActivity : AppCompatActivity(), OnMapReadyCallback {
                         (initDate == null)
                     ) {
                         db.collection("trips")
-                            .document(tripID).update("initDate", timestamp_fb)
-                        // TODO: Exception Handling
+                            .document(tripID).update("initDate", timestamp_fb).addOnFailureListener { e ->
+                                Toast.makeText(
+                                    applicationContext,
+                                    "No se actualizó la fecha de inicio: ${e.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                     }
                 }
                 .addOnFailureListener { e ->

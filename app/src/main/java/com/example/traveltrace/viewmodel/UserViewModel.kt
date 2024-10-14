@@ -1,5 +1,6 @@
 package com.example.traveltrace.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,7 +21,7 @@ class UserViewModel : ViewModel() {
             try {
                 repository.loadUser(_user)
             } catch (e: Exception) {
-                // TODO: Exception
+                throw e
             }
         }
     }
@@ -33,7 +34,7 @@ class UserViewModel : ViewModel() {
             try {
                 repository.loadAllUsers(_allUsers)
             } catch (e: Exception) {
-                // TODO: Exception
+                throw e
             }
         }
     }
@@ -46,7 +47,7 @@ class UserViewModel : ViewModel() {
             try {
                 repository.loadEditors(tripID, _allEditors)
             } catch (e: Exception) {
-                // TODO: Exception
+                throw e
             }
         }
     }

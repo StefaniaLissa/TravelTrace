@@ -27,7 +27,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.GeoPoint
+import java.util.Date
 
 //TODO: Mapa y Recycler Adaptables Bottom Sheets
 //TODO: Mapa en pantalla completa
@@ -43,7 +45,7 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var stopAdapter: StopAdapter
     private lateinit var mMap: GoogleMap
     private lateinit var trip: String
-    private lateinit var initDate: String
+    private lateinit var initDate: Date
     private lateinit var stops: ArrayList<Stop>
 
     private lateinit var coordinates: ArrayList<GeoPoint>
@@ -58,7 +60,7 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //Get Trip Intent
         trip = intent.getStringExtra("id").toString()
-        initDate = intent.getStringExtra("initDate").toString()
+//        initDate = intent.getStringExtra("initDate").toString()
 
         //Get Trip
         viewModel = ViewModelProvider(this).get(TripViewModel::class.java)
@@ -66,6 +68,7 @@ class DetailedTripActivity : AppCompatActivity(), OnMapReadyCallback {
         viewModel.trip.observe(this, Observer {
             if (it != null) {
                 toolbar.title = it.name.toString()
+                initDate = it.initDate!!.toDate()
             }
             Log.w("BD", "loadTripFragment")
         })

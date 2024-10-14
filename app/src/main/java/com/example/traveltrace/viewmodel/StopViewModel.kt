@@ -1,5 +1,6 @@
 package com.example.traveltrace.viewmodel
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,7 +25,7 @@ class StopViewModel : ViewModel() {
             try {
                 stopRepository.loadStops(tripId, _stopsForTrip)
             } catch (e: Exception) {
-                // TODO: Handle exception
+                throw e
             }
         }
     }
@@ -34,7 +35,7 @@ class StopViewModel : ViewModel() {
             try {
                 stopRepository.loadSingleStop(tripId, stopId, _stop)
             } catch (e: Exception) {
-                // TODO: Handle exception
+                throw e
             }
         }
     }
@@ -49,7 +50,7 @@ class StopViewModel : ViewModel() {
             try {
                 stopRepository.loadCoordinates(tripId, stopsCoordinates)
             } catch (e: Exception) {
-                // TODO: Handle exception
+                throw e
             }
         }
         return stopsCoordinates

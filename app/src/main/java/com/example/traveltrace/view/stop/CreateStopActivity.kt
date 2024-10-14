@@ -7,6 +7,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -47,6 +48,7 @@ import com.google.firebase.storage.FirebaseStorage
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 
 // TODO: Colores, AutoCompleteFragment No se puede adaptar
@@ -59,7 +61,8 @@ class CreateStopActivity : AppCompatActivity() {
     private lateinit var ll_expenses: LinearLayout
     private lateinit var spr_category: Spinner
     private lateinit var et_amount: EditText
-//    private lateinit var cb_flight: CheckBox
+
+    //    private lateinit var cb_flight: CheckBox
 //    private lateinit var ll_flight: LinearLayout
 //    private lateinit var sv_from: SearchView
 //    private lateinit var sv_to: SearchView
@@ -69,6 +72,7 @@ class CreateStopActivity : AppCompatActivity() {
     private lateinit var rv_images: RecyclerView
     private lateinit var tv_date: TextView
     private var calendar = Calendar.getInstance()
+    private lateinit var initDate: Date
     private lateinit var tv_time: TextView
     private lateinit var timestamp_fb: Timestamp
     private lateinit var ll_alert: LinearLayout
@@ -97,22 +101,23 @@ class CreateStopActivity : AppCompatActivity() {
         //Get Trip Intent
         val id = intent.getStringExtra("trip").toString()
 
-        val initDate: Timestamp? = try {
+        val initDateString = intent.getStringExtra("initDate")
+        initDate = if (initDateString != null && initDateString != "null") {
             val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-            val date = dateFormat.parse(intent.getStringExtra("initDate"))
-            if (date != null) Timestamp(date) else null
-        } catch (e: Exception) {
-            // TODO: Handle parsing errors (e.g., invalid date format)
-            null
+            val date = Date(initDateString)
+            dateFormat.parse(date.toString())!!
+        } else {
+            calendar.set(9999, 12, 31)
+            calendar.time
         }
 
         // Recuperar API KEY
         val ai: ApplicationInfo? = applicationContext.packageManager
             ?.getApplicationInfo(
-                applicationContext.packageName.toString(),
+                applicationContext.packageName,
                 PackageManager.GET_META_DATA
             )
-        val apiKey = ai?.metaData?.get("com.google.android.geo.API_KEY").toString()
+        val apiKey = ai?.metaData?.getString("com.google.android.geo.API_KEY").toString()
 
         if (!Places.isInitialized()) {
             Places.initialize(applicationContext, apiKey)
@@ -134,10 +139,10 @@ class CreateStopActivity : AppCompatActivity() {
         // Display the fetched information after clicking on one of the options
         placeFragment!!.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                idPlace = place.id.toString()
-                namePlace = place.name.toString()
-                addressPlace = place.address.toString()
-                geoPoint = GeoPoint(place.latLng.latitude, place.latLng.longitude)
+                idPlace = place.id!!.toString()
+                namePlace = place.name!!.toString()
+                addressPlace = place.address!!.toString()
+                geoPoint = GeoPoint(place.latLng!!.latitude, place.latLng!!.longitude)
 
             }
 
@@ -237,36 +242,37 @@ class CreateStopActivity : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     //Subir a Storage
-                    if (imagesList != null) {
-                        for (uri in imagesList) {
-                            val rutaImagen =
-                                "Stop_Image/" + id + "/" + documentReference.id + "/" + System.currentTimeMillis()
-                            val referenceStorage =
-                                FirebaseStorage.getInstance().getReference(rutaImagen)
-                            referenceStorage.putFile(uri.toUri()!!).addOnSuccessListener { tarea ->
-                                val uriTarea: Task<Uri> = tarea.storage.downloadUrl
-                                while (!uriTarea.isSuccessful);
-                                val url = "${uriTarea.result}"
-                                UpdateFirestore(url, documentReference.id)
+                    for (uri in imagesList) {
+                        val rutaImagen =
+                            "Stop_Image/" + id + "/" + documentReference.id + "/" + System.currentTimeMillis()
+                        val referenceStorage =
+                            FirebaseStorage.getInstance().getReference(rutaImagen)
+                        referenceStorage.putFile(uri.toUri()).addOnSuccessListener { tarea ->
+                            val uriTarea: Task<Uri> = tarea.storage.downloadUrl
+                            while (!uriTarea.isSuccessful);
+                            val url = "${uriTarea.result}"
+                            UpdateFirestore(url, documentReference.id)
 
-                            }.addOnFailureListener { e ->
+                        }.addOnFailureListener { e ->
+                            Toast.makeText(
+                                applicationContext,
+                                "No se ha podido subir la imagen: ${e.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    //Fecha de Inicio del Viaje Portada
+                    if ((initDate > timestamp_fb.toDate())
+                    ) {
+                        db.collection("trips")
+                            .document(id).update("initDate", timestamp_fb)
+                            .addOnFailureListener { ex ->
                                 Toast.makeText(
                                     applicationContext,
-                                    "No se ha podido subir la imagen debido a: ${e.message}",
+                                    "No se actualizó la fecha de inicio: ${ex.message}",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                                .addOnSuccessListener {
-                                    //Fecha de Inicio del Viaje Portada
-                                    if ((initDate!! > timestamp_fb) or
-                                        (initDate == null)
-                                    ) {
-                                        db.collection("trips")
-                                            .document(id).update("initDate", timestamp_fb)
-                                        // TODO: Exception Handling
-                                    }
-                                }
-                        }
                     }
                 }
                 .addOnFailureListener { e ->
@@ -423,6 +429,8 @@ class CreateStopActivity : AppCompatActivity() {
         placeFragment =
             supportFragmentManager.findFragmentById(R.id.fg_autocomplete) as AutocompleteSupportFragment?
 
+        //Color
+        placeFragment!!.view?.findViewById<EditText>(com.google.android.libraries.places.R.id.places_autocomplete_search_input)?.setTextColor(getResources().getColor(R.color.white))
 
         //Cargar Fecha y Hora actual
         calendar = Calendar.getInstance()
