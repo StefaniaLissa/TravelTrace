@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/yellow"
     tools:context=".view.login.RecoverActivity">
 
     <LinearLayout
@@ -19,25 +20,38 @@
             android:layout_margin="@dimen/margin_touch_min"
             android:gravity="center"
             android:text="@string/toRecover"
-            android:textSize="@dimen/font_std" />
+            android:textSize="@dimen/font_std"
+            android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/et_email"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_email"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/touch_min"
-            android:layout_margin="@dimen/margin_touch_min"
-            android:autofillHints="true"
-            android:drawableStart="@drawable/ic_email"
-            android:drawablePadding="@dimen/padding_ll_std"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:textSize="@dimen/font_std" />
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:textColorHint="@color/black">
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:autofillHints="true"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="@dimen/padding_ll_std"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_std" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_recover"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/touch_min"
+            android:layout_height="@dimen/touch_btn"
             android:layout_margin="@dimen/margin_touch_min"
+            android:background="@drawable/bt_rounded_corner"
+            android:paddingBottom="5dp"
             android:text="@string/recover"
             android:textSize="@dimen/font_std" />
 
@@ -48,8 +62,8 @@
             android:layout_marginStart="@dimen/margin_touch_min"
             android:layout_marginEnd="@dimen/margin_touch_min"
             android:background="@color/white"
-            android:textColor="@color/black"
             android:gravity="center"
+            android:textColor="@color/black"
             android:textSize="@dimen/font_std"
             android:textStyle="bold"
             android:visibility="invisible" />

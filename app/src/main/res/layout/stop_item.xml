@@ -1,222 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:orientation="vertical">
-    
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="top"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/hh_mm"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tvDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/dd"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tvMonth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/mmm"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tvYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/aaaa"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/nombre_el_punto_de_interes"
+                    android:padding="@dimen/rv_items"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/font_std"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvUbi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/rv_items"
+                    android:padding="@dimen/rv_items"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/font_std"
+                    android:textStyle="italic"
+                    app:drawableStartCompat="@drawable/ic_place" />
+
+                <TextView
+                    android:id="@+id/tvText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/rv_items"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/font_std" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- RecyclerView para las imágenes -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_touch_min" />
+
+        <!-- Información adicional -->
+        <TextView
+            android:id="@+id/tvLatLng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/rv_items"
+            android:textSize="@dimen/font_std"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_delete"
         android:layout_width="80sp"
-        android:layout_height="180sp"
-        android:layout_gravity="end"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical|end"
         android:layout_margin="10dp"
-        android:backgroundTint="@color/red"
+        android:backgroundTint="@color/light_red"
         android:clickable="true"
         android:minHeight="109dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:cardCornerRadius="10dp">
 
         <ImageView
             android:id="@+id/iv_delete"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="true"
+            android:contentDescription="@string/eliminar"
             android:src="@drawable/ic_delete_outline"
-            android:clickable="true"/>
+            app:tint="@color/light_gray" />
 
     </androidx.cardview.widget.CardView>
-    
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="top"
-        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="top"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="HH:MM"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/tvDay"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="DD"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/tvMonth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="MMM"
-                android:textSize="15dp" />
-
-            <TextView
-                android:id="@+id/tvYear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="AAAA"
-                android:textSize="15dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/rv_items"
-                android:hint="Nombre el Punto de Interes"
-                android:textSize="@dimen/font_std"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvUbi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_place"
-                android:drawablePadding="@dimen/rv_items"
-                android:padding="@dimen/rv_items"
-                android:textSize="@dimen/font_std"
-                android:textStyle="italic" />
-
-            <TextView
-                android:id="@+id/tvText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/rv_items"
-                android:textSize="@dimen/font_std" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <!--android:fillViewport="true">-->
-                <LinearLayout
-                    android:id="@+id/ll_photos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"></LinearLayout>
-            </HorizontalScrollView>
-
-            <LinearLayout
-                android:id="@+id/ll_expenses"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/tvCategory"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:padding="@dimen/rv_items"
-                    android:text="Category"
-                    android:textSize="@dimen/font_std" />
-
-                <TextView
-                    android:id="@+id/tvAmount"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:padding="@dimen/rv_items"
-                    android:textSize="@dimen/font_std" />
-
-            </LinearLayout>
-
-<!--             <LinearLayout -->
-<!--                 android:id="@+id/ll_flight" -->
-<!--                 android:layout_width="250dp" -->
-<!--                 android:layout_height="wrap_content" -->
-<!--                 android:orientation="horizontal"> -->
-
-<!--                 <TextView -->
-<!--                     android:id="@+id/tvFrom" -->
-<!--                     android:layout_width="0dp" -->
-<!--                     android:layout_height="wrap_content" -->
-<!--                     android:layout_gravity="left" -->
-<!--                     android:layout_weight="1" -->
-<!--                     android:drawableLeft="@drawable/ic_flight_takeoff" -->
-<!--                     android:drawablePadding="@dimen/font_std" -->
-<!--                     android:gravity="left" -->
-<!--                     android:padding="@dimen/rv_items" -->
-<!--                     android:textSize="@dimen/font_std" /> -->
-
-<!--                 <ImageView -->
-<!--                     android:layout_width="wrap_content" -->
-<!--                     android:layout_height="match_parent" -->
-<!--                     android:src="@drawable/ic_flight" /> -->
-
-
-<!--                 <TextView -->
-<!--                     android:id="@+id/tvTo" -->
-<!--                     android:layout_width="0dp" -->
-<!--                     android:layout_height="wrap_content" -->
-<!--                     android:layout_gravity="right" -->
-<!--                     android:layout_weight="1" -->
-<!--                     android:drawableRight="@drawable/ic_flight_land" -->
-<!--                     android:drawablePadding="@dimen/font_std" -->
-<!--                     android:gravity="right" -->
-<!--                     android:padding="@dimen/rv_items" -->
-<!--                     android:textSize="@dimen/font_std" /> -->
-
-<!--             </LinearLayout> -->
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <ScrollView
-        android:id="@+id/sv_images"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_touch_min">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_images"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <TextView
-        android:id="@+id/tvLatLng"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/rv_items"
-        android:textSize="@dimen/font_std"
-        android:visibility="gone"/>
-
-</LinearLayout>
+</FrameLayout>

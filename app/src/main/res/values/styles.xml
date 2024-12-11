@@ -1,12 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="notVerfy" parent="@android:style/Widget.TextView">
-        <item name="android:textSize">@dimen/font_std</item>
-        <item name="android:textColor">@color/teal_200</item>
-        <item name="android:textStyle">bold</item>
-    </style>
+
     <style name="fab_square" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="fab_square2" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+
+    <style name="CustomDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:colorBackground">@color/yellow</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+
+    <style name="ToolBarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/yellow</item>
+        <item name="backgroundTint">@color/yellow</item>
+        <item name="titleTextAppearance">@style/TitleTextAppearance</item>
+        <item name="subtitleTextAppearance">@style/SubTitleTextAppearance</item>
+        <item name="android:drawableTint">@color/black</item>
+    </style>
+
+    <style name="TitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@color/yellow</item>
+        <item name="backgroundTint">@color/yellow</item>
+    </style>
+
+    <style name="SubTitleTextAppearance" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@color/yellow</item>
+        <item name="backgroundTint">@color/yellow</item>
+    </style>
+    <style name="CustomDatePickerTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <!-- Background color -->
+        <item name="colorBackgroundFloating">@color/yellow</item>
+        <item name="colorSurface">@color/yellow</item>
+
+        <!-- Text colors -->
+        <item name="colorOnSurface">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+
+        <!-- Selected date color -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="colorControlActivated">@color/green</item>
+    </style>
+
+    <style name="CustomTimePickerTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <!-- Background color -->
+        <item name="colorBackgroundFloating">@color/yellow</item>
+        <item name="colorSurface">@color/yellow</item>
+
+        <!-- Text colors -->
+        <item name="colorOnSurface">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+
+        <!-- Selected time color -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorAccent">@color/green</item>
+        <item name="colorControlActivated">@color/green</item>
+    </style>
+    <style name="PasswordCustomDialogTheme" parent="Theme.AppCompat.Dialog.Alert">
+        <!-- Set background color -->
+        <item name="backgroundColor">@color/yellow</item>
+
+        <!-- Customize title text -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:windowBackground">@color/yellow</item>
+
+        <!-- Customize button text -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/DialogButton</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/DialogButton</item>
+
+        <!-- Customize text in dialog -->
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="DialogButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/green</item>
+    </style>
+    <style name="CustomEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="hintTextColor">@color/gray</item>
+    </style>
+    <style name="CustomDialogImgTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:backgroundDimEnabled">true</item> <!-- Habilita el oscurecimiento del fondo -->
+        <item name="android:windowBackground">@android:color/transparent</item> <!-- Fondo transparente -->
+        <item name="android:windowNoTitle">true</item> <!-- Sin título -->
+        <item name="android:windowIsFloating">true</item> <!-- Diseño flotante -->
     </style>
 </resources>

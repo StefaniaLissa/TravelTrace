@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/margin_std"
+    tools:context=".view.trip.CreateFromImgActivity">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_std"
+        android:layout_marginVertical="8dp"
+        android:layout_marginTop="@dimen/margin_std"
+        android:paddingTop="10dp"
+        android:shadowColor="@color/white"
+        android:text="Crear con Imágenes"
+        android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/title_20"
+        android:textStyle="bold"
+        app:emojiCompatEnabled="true" />
+
+    <TextView
+        android:id="@+id/tv_instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_std"
+        android:layout_marginVertical="8dp"
+        android:text="Suba imágenes desde la galería para crear puntos de interés rapidamente! 😎"
+        android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/font_std" />
+
+    <Button
+        android:id="@+id/btn_upload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_std"
+        android:layout_marginVertical="8dp"
+        android:background="@drawable/bt_rounded_corner"
+        android:paddingBottom="5dp"
+        android:text="SUBIR FOTOS"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/font_std"
+        android:textStyle="bold" />
+
+
+    <ScrollView
+        android:id="@+id/sv_images"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="@dimen/margin_touch_min"
+        android:layout_marginVertical="8dp"
+        android:visibility="visible">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_images"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_process"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_std"
+        android:layout_marginVertical="8dp"
+        android:background="@drawable/bt_rounded_corner"
+        android:paddingBottom="5dp"
+        android:text="PROCESAR IMÁGENES"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/font_std"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_instructions2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_std"
+        android:layout_marginVertical="8dp"
+        android:text="Con los datos de sus imágenes, se crearon estos puntos de interés 🎉"
+        android:textAlignment="center"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/font_std"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:layout_marginVertical="8dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_stops"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
+
+    <!-- Barra de Carga -->
+    <ProgressBar
+        android:id="@+id/pb_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/touch_btn"
+        android:layout_marginHorizontal="@dimen/margin_std"
+        android:layout_marginVertical="8dp"
+        android:background="@drawable/bt_rounded_corner"
+        android:paddingBottom="5dp"
+        android:text="AGREGAR AL VIAJE"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/font_std"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+</LinearLayout>

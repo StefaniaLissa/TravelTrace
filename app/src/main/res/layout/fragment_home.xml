@@ -6,20 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".view.trip.HomeFragment">
 
+    <TextView
+        android:id="@+id/tv_no_trip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/touch_btn"
+        android:text="No hay Viajes 🥲"
+        android:textAlignment="center"
+        android:textSize="@dimen/font_std"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_create"
+        android:id="@+id/fab_custom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_plus"
-        android:backgroundTint="@color/light_green"
-        app:shapeAppearanceOverlay="@style/fab_square"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"/>
-
-
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/transparent"
+        android:backgroundTintMode="add"
+        android:outlineAmbientShadowColor="@color/black"
+        android:outlineSpotShadowColor="@color/black"
+        android:src="@drawable/btn_round_add"
+        app:backgroundTint="@android:color/transparent"
+        app:borderWidth="5dp"
+        app:shapeAppearanceOverlay="@style/fab_square2" />
 </FrameLayout>

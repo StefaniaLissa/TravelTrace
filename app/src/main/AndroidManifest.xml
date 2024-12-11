@@ -7,31 +7,28 @@
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.CAMERA" />
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_travel_trace"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_travel_trace_round"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TravelTrace"
-        tools:targetApi="31">
+        android:theme="@style/Theme.ViajesLog">
         <activity
-            android:name=".view.stop.EditStopActivity"
+            android:name=".view.stop.PostStopActivity"
             android:exported="false" />
         <activity
-            android:name=".view.TripfromMulti.TripfromMultiMainActivity"
+            android:name=".view.tripExtra.MediumActivity"
             android:exported="false" />
         <activity
-            android:name=".view.trip.CreateTripActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.stop.CreateStopActivity"
+            android:name=".view.trip.CreateFromImgActivity"
             android:exported="false" />
         <activity
             android:name=".view.stop.DetailedStopActivity"
@@ -40,30 +37,33 @@
             android:name=".view.trip.DetailedTripActivity"
             android:exported="false" />
         <activity
+            android:name=".view.trip.CreateTripActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.login.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.login.RecoverActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.login.SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.login.RecoverActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.MainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.login.SignupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.login.LoginActivity"
-            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="${MAPS_API_KEY}" />
     </application>
-
 </manifest>

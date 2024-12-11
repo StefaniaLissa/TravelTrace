@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_container"
     android:layout_width="match_parent"
@@ -26,18 +27,30 @@
                 android:layout_height="220dp"
                 android:background="@color/white"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_cover_travel_trace" />
+                android:src="@drawable/img_banner_profile" />
 
-            <ImageView
-                android:id="@+id/iv_imagen"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="130dp"
-                android:background="#FEFEFE"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_travel_trace" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_imagen"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="130dp"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/RoundedImageView" />
+
+                <ProgressBar
+                    android:id="@+id/pb_img"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="130dp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
         </RelativeLayout>
 
         <LinearLayout
@@ -49,8 +62,8 @@
 
             <ImageView
                 android:id="@+id/iv_edit"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_gravity="right"
                 android:src="@drawable/btn_round_edit" />
 
@@ -60,8 +73,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-20dp"
                 android:layout_marginBottom="@dimen/margin_touch_min"
-                android:text="@string/name"
-                android:textSize="@dimen/title_20" />
+                android:textSize="@dimen/title_20"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_email"
@@ -69,48 +82,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_touch_min"
                 android:layout_marginBottom="@dimen/margin_touch_min"
-                android:text="@string/email"
-                android:textSize="@dimen/title_20" />
+                android:textSize="@dimen/title_20"
+                android:textStyle="bold" />
 
 
-            <CheckBox
-                android:id="@+id/cb_online"
+            <TextView
+                android:id="@+id/tv_online"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/touch_min"
                 android:layout_marginTop="@dimen/margin_touch_min"
                 android:layout_marginBottom="@dimen/margin_touch_min"
                 android:checked="false"
-                android:layoutDirection="rtl"
-                android:text="Viajes Públicos"
-                android:textSize="@dimen/title_20" />
+                android:text="Nuevos viajes públicos por defecto"
+                android:textColor="@color/black"
+                android:textSize="@dimen/title_20"
+                android:visibility="visible" />
 
-            <Button
-                android:id="@+id/btn_passw"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/touch_min"
-                android:layout_marginTop="@dimen/margin_touch_min"
-                android:layout_marginBottom="@dimen/margin_touch_min"
-                android:gravity="center"
-                android:text="@string/change_passw"
-                android:textSize="@dimen/font_std" />
-
-<!--            <Button-->
-<!--                android:id="@+id/btn_verify"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/touch_min"-->
-<!--                android:layout_marginTop="@dimen/margin_touch_min"-->
-<!--                android:layout_marginBottom="@dimen/margin_touch_min"-->
-<!--                android:gravity="center"-->
-<!--                android:text="Verificar Email"-->
-<!--                android:textSize="@dimen/font_std" />-->
 
             <Button
                 android:id="@+id/btn_logout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/touch_min"
+                android:layout_height="@dimen/touch_btn"
                 android:layout_marginTop="@dimen/margin_touch_min"
                 android:layout_marginBottom="@dimen/margin_touch_min"
+                android:background="@drawable/bt_rounded_corner"
                 android:gravity="center"
+                android:paddingBottom="5dp"
                 android:text="@string/logout"
                 android:textSize="@dimen/font_std" />
         </LinearLayout>

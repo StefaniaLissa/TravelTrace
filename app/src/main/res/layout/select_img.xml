@@ -1,74 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="vertical"
-    android:padding="10dp">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:text="Seleccionar desde:"
-        android:textSize="@dimen/title_20"
-        android:textStyle="bold" />
+    android:layout_margin="16dp"
+    android:minWidth="350dp"
+    android:minHeight="200dp"
+    app:cardBackgroundColor="@color/yellow"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        android:weightSum="2">
+        android:orientation="vertical"
+        android:padding="30dp">
 
-        <!--Galería-->
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <!-- Título -->
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:text="@string/img_dialog"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/title_20"
+            android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_gallery" />
+        <!-- Botones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="2">
 
-            <Button
-                android:id="@+id/btn_gallery"
+            <!-- Botón Galería -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Galería"
-                android:textSize="@dimen/font_std" />
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/btn_gallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bt_rounded_corner"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/galeria"
+                    android:textSize="@dimen/font_std" />
 
-        <!--Cámara-->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_camera" />
+            <!-- Espaciado entre botones -->
+            <Space
+                android:layout_width="16dp"
+                android:layout_height="wrap_content" />
 
-            <Button
-                android:id="@+id/btn_camera"
+            <!-- Botón Cámara -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="@dimen/font_std"
-                android:text="Camara"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bt_rounded_corner"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/camara"
+                    android:textSize="@dimen/font_std" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
     </LinearLayout>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

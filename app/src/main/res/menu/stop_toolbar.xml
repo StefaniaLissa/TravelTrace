@@ -14,12 +14,4 @@
         android:title="@string/eliminar"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/share"
-        android:title="@string/compartir" />
-
-    <item
-        android:id="@+id/addImg"
-        android:title="@string/a_adir_im_genes" />
-
 </menu>

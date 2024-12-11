@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/yellow"
     tools:context=".view.login.SignupActivity">
 
     <LinearLayout
@@ -13,36 +14,65 @@
         android:orientation="vertical"
         android:padding="@dimen/padding_ll_std">
 
-        <EditText
-            android:id="@+id/et_email"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/touch_min"
-            android:layout_margin="@dimen/margin_touch_min"
-            android:autofillHints="true"
-            android:drawableStart="@drawable/ic_email"
-            android:drawablePadding="@dimen/padding_ll_std"
-            android:drawableTint="@color/white"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:textSize="@dimen/font_std" />
-
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/touch_min"
-            android:layout_margin="@dimen/margin_touch_min"
-            android:autofillHints="true"
-            android:drawableStart="@drawable/ic_person"
-            android:drawablePadding="@dimen/padding_ll_std"
-            android:drawableTint="@color/white"
-            android:hint="@string/name"
-            android:inputType="text"
-            android:textSize="@dimen/font_std" />
-
+        <!-- Campo de correo -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true">
+            android:layout_marginVertical="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:textColorHint="@color/black"
+            app:passwordToggleEnabled="false">
+
+            <EditText
+                android:id="@+id/et_email"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:autofillHints="true"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="@dimen/padding_ll_std"
+                android:drawableTint="@color/black"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_std" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Campo de nombre -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:textColorHint="@color/black"
+            app:passwordToggleEnabled="false">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_min"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:autofillHints="true"
+                android:drawableStart="@drawable/ic_person"
+                android:drawablePadding="@dimen/padding_ll_std"
+                android:drawableTint="@color/black"
+                android:hint="@string/name"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_std" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Campo de contraseña -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:textColorHint="@color/black"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/black">
 
             <EditText
                 android:id="@+id/et_password"
@@ -52,16 +82,23 @@
                 android:autofillHints="true"
                 android:drawableStart="@drawable/ic_lock"
                 android:drawablePadding="@dimen/padding_ll_std"
-                android:drawableTint="@color/white"
+                android:drawableTint="@color/black"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                android:textColor="@color/black"
                 android:textSize="@dimen/font_std" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        <!-- Campo de repetir contraseña -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true">
+            android:layout_marginVertical="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:textColorHint="@color/black"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/black">
 
             <EditText
                 android:id="@+id/et_re_password"
@@ -71,31 +108,43 @@
                 android:autofillHints="true"
                 android:drawableStart="@drawable/ic_lock"
                 android:drawablePadding="@dimen/padding_ll_std"
-                android:drawableTint="@color/white"
+                android:drawableTint="@color/black"
                 android:hint="@string/re_password"
                 android:inputType="textPassword"
+                android:textColor="@color/black"
                 android:textSize="@dimen/font_std" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Mensajes de error -->
         <TextView
             android:id="@+id/tv_alert"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_touch_min"
             android:layout_marginEnd="@dimen/margin_touch_min"
-            android:background="@color/white"
             android:gravity="center"
-            android:textColor="@color/black"
             android:text="@string/wrong"
+            android:textColor="@color/red"
             android:textSize="@dimen/font_std"
             android:textStyle="bold"
             android:visibility="invisible" />
 
+        <!-- Barra de progreso -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <!-- Botón de registro -->
         <Button
             android:id="@+id/signup"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/touch_min"
+            android:layout_height="@dimen/touch_btn"
             android:layout_margin="@dimen/margin_touch_min"
+            android:background="@drawable/bt_rounded_corner"
+            android:paddingBottom="5dp"
             android:text="@string/signup"
             android:textSize="@dimen/font_std" />
 

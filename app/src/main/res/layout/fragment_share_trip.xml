@@ -4,19 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#303030"
+    android:background="@color/yellow"
     android:padding="@dimen/padding_touch_min"
-    tools:context=".view.trip.ShareTripFragment">
+    tools:context=".view.tripExtra.ShareTripFragment">
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/sv_users"
+    <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_touch_min"
+        android:gravity="center"
+        android:layout_marginHorizontal="@dimen/margin_std"
+        android:paddingVertical="@dimen/margin_std"
+        android:text="Comparte la edición de tu viaje con otros usuarios"
+        android:textStyle="bold"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/title_20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:queryHint="Busca el email" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/iv_cover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/margin_touch_min"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/sv_users"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_touch_min"
+            app:iconifiedByDefault="false"
+            app:queryHint="Busca usuarios por su correo"
+            app:searchIcon="@drawable/ic_search"
+            app:theme="@style/ThemeOverlay.AppCompat.Light" />
+
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_users"
@@ -25,8 +52,7 @@
         android:layout_margin="@dimen/margin_touch_min"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sv_users" />
-
+        app:layout_constraintTop_toBottomOf="@+id/iv_cover" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_editors"
@@ -36,5 +62,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_users" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_custom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:backgroundTint="@android:color/transparent"
+        android:backgroundTintMode="add"
+        android:outlineAmbientShadowColor="@color/black"
+        android:outlineSpotShadowColor="@color/black"
+        android:src="@drawable/btn_round_done"
+        app:backgroundTint="@android:color/transparent"
+        app:borderWidth="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/fab_square2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.trip.ExploreFragment">
+    tools:context=".view.tripExtra.ExploreFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Explore"
-        android:gravity="center"/>
+        android:orientation="vertical"
+        android:paddingTop="@dimen/padding_ll_std"
+        android:paddingStart="@dimen/padding_ll_std"
+        android:paddingEnd="@dimen/padding_ll_std"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:orientation="horizontal">
+
+            <fragment
+                android:id="@+id/fg_autocomplete"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_marginEnd="25dp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-25dp"
+                android:contentDescription="@string/seleccionar_ubicacion"
+                android:padding="12dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_place" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_flt_day"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:background="@drawable/bt_rounded_corner"
+            android:paddingBottom="5dp"
+            android:text="VIAJES DE UN DÍA"
+            android:textSize="@dimen/font_std"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_flt_short"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:background="@drawable/bt_rounded_corner"
+            android:paddingBottom="5dp"
+            android:text="VIAJES DE UNA SEMANA"
+            android:textSize="@dimen/font_std"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_flt_long"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:background="@drawable/bt_rounded_corner"
+            android:paddingBottom="5dp"
+            android:text="VIAJES LARGOS"
+            android:textSize="@dimen/font_std"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_touch_min" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,201 +1,254 @@
 package com.example.traveltrace.view.adapters
 
 import android.content.Intent
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
-import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import com.example.traveltrace.R
-import com.example.traveltrace.model.data.Photo
 import com.example.traveltrace.model.data.Stop
 import com.example.traveltrace.view.stop.DetailedStopActivity
-import com.example.traveltrace.viewmodel.StopViewModel
-import com.example.traveltrace.viewmodel.UserViewModel
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
-import com.google.android.libraries.places.api.net.FetchPlaceResponse
-import com.google.firebase.firestore.FirebaseFirestore
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-class StopAdapter : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
-	public lateinit var tripID: String
-	private val stopArrayList = ArrayList<Stop>()
-	var onStopClick: ((Stop) -> Unit)? = null
-	lateinit var editorsViewModel : UserViewModel
+/**
+ * Adaptador para mostrar una lista de Stops en un RecyclerView.
+ * Maneja la visualización de información, imágenes asociadas y permite la eliminación de paradas.
+ *
+ * @param isClickable Indica si los elementos son interactuables.
+ * @param isReadOnly Indica si el adaptador opera en modo solo lectura.
+ */
+class StopAdapter(
+	private val isClickable: Boolean = true, // Define si los elementos son clickeables.
+	private val isReadOnly: Boolean = false // Define si el adaptador está en modo de solo lectura.
+) : RecyclerView.Adapter<StopAdapter.StopViewHolder>() {
 
+	lateinit var tripID: String // ID del viaje al que pertenecen las paradas.
+	private val stopArrayList = ArrayList<Stop>() // Lista interna de paradas.
+
+	/**
+	 * Infla el layout para cada parada (Stop) y crea su ViewHolder.
+	 */
 	override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StopViewHolder {
 		val itemView =
 			LayoutInflater.from(parent.context).inflate(R.layout.stop_item, parent, false)
 		return StopViewHolder(itemView)
 	}
 
+	/**
+	 * Vincula una parada (Stop) específica al ViewHolder.
+	 */
 	override fun onBindViewHolder(holder: StopViewHolder, position: Int) {
 		val stop = stopArrayList[position]
+
 		// Nombre
 		if (stop.name.isNullOrEmpty()) {
 			holder.name.visibility = View.GONE
 		} else {
+			holder.name.visibility = View.VISIBLE
 			holder.name.text = stop.name
 		}
+
 		// Descripción
-		if (stop.text.toString().equals("")) {
+		if (stop.text.equals("")) {
 			holder.text.visibility = View.GONE
 		} else {
+			holder.text.visibility = View.VISIBLE
 			holder.text.text = stop.text
 		}
-		//Photos
+
+		// Fotos
 		if (stop.photos.isNullOrEmpty()) {
-			holder.sv_images.visibility = View.GONE
-			holder.sv_images.visibility = View.GONE
+			holder.rvImages.adapter = null
 		} else {
-			holder.sv_images.visibility = View.VISIBLE
-			holder.sv_images.visibility = View.VISIBLE
-			//var layoutManager = GridLayoutManager (holder.rv_images.context,4)
 			val layoutManager =
-				LinearLayoutManager(holder.rv_images.context, LinearLayoutManager.HORIZONTAL, false)
-			var adapter = ImageAdapter(stop.photos!!)
-			holder.rv_images.layoutManager = layoutManager
-			holder.rv_images.adapter = adapter
+				LinearLayoutManager(holder.rvImages.context, LinearLayoutManager.HORIZONTAL, false)
+			val adapter = ImageAdapter(stop.photos!!)
+			holder.rvImages.layoutManager = layoutManager
+			holder.rvImages.adapter = adapter
 		}
-		//Timestamp
+
+		// Fecha y hora
 		if (stop.timestamp == null) {
 			holder.time.visibility = View.GONE
 			holder.day.visibility = View.GONE
 			holder.month.visibility = View.GONE
 			holder.year.visibility = View.GONE
 		} else {
-			var calendar = Calendar.getInstance()
-			var stopDate = Date(stop.timestamp!!.seconds * 1000)
-			calendar.setTime(stopDate)
-			holder.time.text = String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY)) + ":" + String.format(
-				"%02d",
-				calendar.get(Calendar.MINUTE)
-			)
-			holder.day.text = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
+			holder.time.visibility = View.VISIBLE
+			holder.day.visibility = View.VISIBLE
+			holder.month.visibility = View.VISIBLE
+			holder.year.visibility = View.VISIBLE
+
+			val calendar = Calendar.getInstance()
+			val stopDate = Date(stop.timestamp!!.seconds * 1000)
+			calendar.time = stopDate
+
+			holder.time.text = String.format(Locale.getDefault(), "%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE))
+			holder.day.text = String.format(Locale.getDefault(), "%02d", calendar.get(Calendar.DAY_OF_MONTH))
 			holder.month.text = calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
 			holder.year.text = calendar.get(Calendar.YEAR).toString()
 		}
 
-		//UBICACIÓN
+		// Ubicación
 		if (stop.idPlace.isNullOrEmpty()) {
 			holder.ubi.visibility = View.GONE
 		} else {
+			holder.ubi.visibility = View.VISIBLE
 			holder.ubi.text = stop.namePlace
-			holder.LatLng.text = stop.geoPoint.toString()
+			holder.latLng.text = stop.geoPoint.toString()
 		}
 
-		//Vuelo
-//		if (true) {
-//			holder.flight.visibility = View.GONE
-//			holder.category.visibility = View.GONE
-//		}
-
-
-		// Click
-		holder.itemView.setOnClickListener {
-			val intent = Intent(holder.itemView.context, DetailedStopActivity::class.java)
-			intent.putExtra("stopID", stop.id)
-			intent.putExtra("tripID", tripID)
-			intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-			holder.itemView.context.startActivity(intent)
-		}
-
-		//Delete
-
-		holder.delete.visibility = View.GONE
-		holder.itemView.setOnLongClickListener {
-			if (holder.delete.isVisible) {
-				holder.delete.visibility = View.GONE
-			} else {
-				holder.delete.visibility = View.VISIBLE
+		// Manejar clics en la parada si está habilitado.
+		if (isClickable) {
+			holder.itemView.setOnClickListener {
+				val intent = Intent(holder.itemView.context, DetailedStopActivity::class.java)
+				intent.putExtra("stopID", stop.id)
+				intent.putExtra("tripID", tripID)
+				intent.putExtra("isReadOnly", isReadOnly)
+				intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+				holder.itemView.context.startActivity(intent)
 			}
-			true
 		}
 
-		holder.bt_delete.setOnClickListener {
-			
-			editorsViewModel.loadEditors(stop.id.toString())
-			editorsViewModel.allEditors.observe(
-				holder.itemView.context as LifecycleOwner,
-				Observer {
+		// Eliminar
+		holder.delete.visibility = View.GONE
+		if (!isReadOnly) {
+			holder.itemView.setOnLongClickListener {
+				holder.delete.visibility = if (holder.delete.isVisible) View.GONE else View.VISIBLE
+				true
+			}
 
-					FirebaseFirestore.getInstance()
-						.collection("trips")
-						.document(tripID)
-						.collection("stops")
-						.document(stop.id!!)
-						.delete()
-						.addOnSuccessListener {
-							StopViewModel().stopsForTrip.observe(
-								holder.itemView.context as LifecycleOwner,
-								Observer {
-									stopArrayList.addAll(it)
-								}
-							);
+			holder.btDelete.setOnClickListener {
+				val builder =
+					AlertDialog.Builder(holder.btDelete.context, R.style.CustomDialogTheme)
+				builder.setTitle("Confirmar eliminación")
+				builder.setMessage("¿Estás seguro de que deseas eliminar este punto de interés? Esta acción no se puede deshacer.")
+				builder.setPositiveButton("Eliminar") { dialog, _ ->
+					val stopID = stop.id
+					val db = FirebaseFirestore.getInstance()
+					val tripRef = db.collection("trips").document(tripID)
+					val stopRef = tripRef.collection("stops").document(stopID!!)
+
+					// Eliminar
+					stopRef.delete().addOnSuccessListener {
+						val stopImagesPath = "Stop_Image/$tripID/$stopID/"
+						val stopImagesRef = FirebaseStorage.getInstance().reference.child(stopImagesPath)
+						stopImagesRef.listAll().addOnSuccessListener { listResult ->
+							for (file in listResult.items) {
+								file.delete() // Elimina cada imagen de las paradas
+							}
 						}
 
+						// Actualizar el viaje si quedan stops o restablecerlo si no hay más.
+						tripRef.collection("stops").get().addOnSuccessListener { stopsSnapshot ->
+							if (!stopsSnapshot.isEmpty) {
+								val stops =
+									stopsSnapshot.documents.mapNotNull { it.toObject(Stop::class.java) }
+								if (stops.isNotEmpty()) {
+									val newInitDate =
+										stops.minByOrNull { it.timestamp!! }?.timestamp
+									val newEndDate = stops.maxByOrNull { it.timestamp!! }?.timestamp
+
+									tripRef.update(
+										mapOf(
+											"initDate" to newInitDate,
+											"endDate" to newEndDate,
+											"duration" to calculateDurationDays(
+												newInitDate,
+												newEndDate
+											)
+										)
+									)
+								}
+							} else {
+								tripRef.update(
+									mapOf(
+										"initDate" to null, "endDate" to null, "duration" to 0
+									)
+								)
+							}
+						}
+					}
+
+					stopArrayList.removeAt(position)
+					this.notifyDataSetChanged()
+
+					dialog.dismiss()
 				}
-			)
-			stopArrayList.removeAt(position)
-			this.notifyDataSetChanged()
+				builder.setNegativeButton("Cancelar") { dialog, _ ->
+					holder.delete.visibility = View.GONE
+					dialog.dismiss()
+				}
+				builder.create().show()
+			}
 		}
 	}
 
+	/**
+	 * Devuelve la cantidad de stops en la lista.
+	 */
 	override fun getItemCount(): Int {
 		return stopArrayList.size
 	}
 
+	/**
+	 * Actualiza la lista de paradas en el adaptador.
+	 */
 	fun updateStopList(stopList: List<Stop>) {
 		this.stopArrayList.clear()
 		this.stopArrayList.addAll(stopList)
 		notifyDataSetChanged()
 	}
 
-	class StopViewHolder(itemView: View) :
-		RecyclerView.ViewHolder(itemView) {
+	/**
+	 * ViewHolder que contiene las vistas para una Stop.
+	 */
+	class StopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		val name: TextView = itemView.findViewById(R.id.tvName)
 		val text: TextView = itemView.findViewById(R.id.tvText)
-
 		val time: TextView = itemView.findViewById(R.id.tvTime)
 		val day: TextView = itemView.findViewById(R.id.tvDay)
 		val month: TextView = itemView.findViewById(R.id.tvMonth)
 		val year: TextView = itemView.findViewById(R.id.tvYear)
-
-		val rv_images: RecyclerView = itemView.findViewById(R.id.rv_images)
-		val sv_images: ScrollView = itemView.findViewById(R.id.sv_images)
-
+		val rvImages: RecyclerView = itemView.findViewById(R.id.rv_images)
 		val ubi: TextView = itemView.findViewById(R.id.tvUbi)
-		val LatLng: TextView = itemView.findViewById(R.id.tvLatLng)
-
-		val expenses: LinearLayout = itemView.findViewById(R.id.ll_expenses)
-		val category: TextView = itemView.findViewById(R.id.tvCategory)
-		val amount: TextView = itemView.findViewById(R.id.tvAmount)
-
-//		val flight: LinearLayout = itemView.findViewById(R.id.ll_flight)
-//		val from: TextView = itemView.findViewById(R.id.tvFrom)
-//		val to: TextView = itemView.findViewById(R.id.tvTo)
-
+		val latLng: TextView = itemView.findViewById(R.id.tvLatLng)
 		val delete: CardView = itemView.findViewById(R.id.cv_delete)
-		val bt_delete: ImageView = itemView.findViewById(R.id.iv_delete)
+		val btDelete: ImageView = itemView.findViewById(R.id.iv_delete)
 	}
 
-	fun getStops(): List<Stop> {
-		return stopArrayList
+	/**
+	 * Calcula la duración en días entre dos fechas dadas.
+	 *
+	 * @param initDate Fecha inicial.
+	 * @param endDate Fecha final.
+	 * @return Duración en días.
+	 */
+	private fun calculateDurationDays(initDate: Timestamp?, endDate: Timestamp?): Long {
+		// Validar que las dos fechas no sean nulas
+		return if (initDate != null && endDate != null) {
+			// Convertir las fechas a milisegundos (número de milisegundos desde el Epoch).
+			val initMillis = initDate.toDate().time         // Fecha inicial en milisegundos.
+			val endMillis = endDate.toDate().time           // Fecha final en milisegundos.
+
+			// Calcular la diferencia en milisegundos entre la fecha final e inicial.
+			val diffInMillis = endMillis - initMillis       // Diferencia en milisegundos.
+
+			diffInMillis / (1000 * 60 * 60 * 24)
+		} else {
+			// Si cualquiera de las fechas es nula, retornar 0 (duración inválida).
+			0L
+		}
 	}
 }

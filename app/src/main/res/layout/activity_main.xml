@@ -11,24 +11,17 @@
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-<!--        <Button-->
-<!--            android:id="@+id/button"-->
-<!--            android:padding="@dimen/padding_touch_min"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:onClick="Test"-->
-<!--            android:text="Test UploadPhotos" />-->
-    </FrameLayout>
+        android:layout_weight="1"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemIconTint="@color/bottom_nav_color"
-        app:itemTextAppearanceActiveBoldEnabled="false"
-        app:itemTextColor="@color/bottom_nav_color"
+        android:background="@color/green"
+        android:defaultFocusHighlightEnabled="true"
+        app:itemIconSize="@dimen/touch_min"
+        app:itemIconTint="@color/gray"
+        app:labelVisibilityMode="unlabeled"
         app:menu="@menu/bottom_navbar" />
 
 </LinearLayout>

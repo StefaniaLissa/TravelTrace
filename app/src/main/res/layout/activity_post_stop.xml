@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.stop.PostStopActivity">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_ll_std"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:textColorHint="@color/black">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:backgroundTint="@color/black"
+                android:drawableTint="@color/black"
+                android:ems="10"
+                android:hint="@string/nombre_el_punto_de_inter_s"
+                android:inputType="text"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/title_20" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/touch_btn"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10sp"
+                android:src="@drawable/ic_calendar" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10sp"
+                android:layout_marginEnd="40dp"
+                android:hint="Fecha"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/title_20"
+                android:theme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="-35dp"
+                android:src="@drawable/ic_edit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/touch_btn"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="10sp"
+                android:src="@drawable/ic_time" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10sp"
+                android:layout_marginEnd="40dp"
+                android:hint="@string/hora"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/title_20"
+                android:theme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="-35dp"
+                android:src="@drawable/ic_edit" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_touch_min"
+            android:layout_marginVertical="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <fragment
+                android:id="@+id/fg_autocomplete"
+                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_marginEnd="25dp" />
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-25dp"
+                android:contentDescription="@string/seleccionar_ubicacion"
+                android:padding="12dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_place" />
+        </LinearLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:background="@color/white"
+            android:textColorHint="@color/black">
+
+            <EditText
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:autofillHints="Notas"
+                android:backgroundTint="@color/black"
+                android:drawableTint="@color/black"
+                android:hint="@string/notas"
+                android:inputType="textMultiLine"
+                android:nestedScrollingEnabled="false"
+                android:selectAllOnFocus="false"
+                android:singleLine="false"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textColorLink="@color/green" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <!-- Barra de Carga -->
+        <ProgressBar
+            android:id="@+id/pb_load"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="8sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_touch_min"
+            android:layout_marginTop="8sp"
+            android:text="Agregar fotos:"
+            android:textColor="@color/black"
+            android:textSize="@dimen/title_20"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+            <!--Galería-->
+            <Button
+                android:id="@+id/btn_upload"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/touch_btn"
+                android:layout_margin="@dimen/margin_touch_min"
+                android:background="@drawable/bt_rounded_corner"
+                android:paddingBottom="5dp"
+                android:text="SUBIR FOTOS"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/font_std"
+                android:textStyle="bold" />
+
+        <ScrollView
+            android:id="@+id/sv_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_touch_min">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </ScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_alert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="#303030"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tv_alert"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="80dp"
+            android:gravity="center"
+            android:padding="20dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/font_std"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/yellow"
+        android:backgroundTintMode="add"
+        android:outlineAmbientShadowColor="@android:color/transparent"
+        android:outlineSpotShadowColor="@android:color/transparent"
+        android:src="@drawable/btn_round_done"
+        app:backgroundTint="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:shapeAppearanceOverlay="@style/fab_square2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

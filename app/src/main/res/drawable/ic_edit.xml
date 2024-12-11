@@ -6,7 +6,7 @@
         android:bottom="4dp">
         <vector
             android:height="24dp"
-            android:tint="#FFFFFF"
+            android:tint="#000000"
             android:viewportHeight="24"
             android:viewportWidth="24"
             android:width="24dp"

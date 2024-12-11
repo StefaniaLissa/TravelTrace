@@ -1,0 +1,34 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape>
+            <corners android:radius="10dp" />
+            <solid android:color="@color/gray" />
+        </shape>
+    </item>
+
+    <item android:bottom="5dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/green" />
+            <corners android:radius="10dp" />
+
+        </shape>
+    </item>
+    <!-- Vector shape -->
+    <item
+        android:bottom="8dp"
+        android:left="4dp"
+        android:right="4dp"
+        android:top="4dp">
+        <vector
+            android:width="24dp"
+            android:height="24dp"
+            android:tint="@color/gray"
+            android:viewportWidth="24"
+            android:viewportHeight="24">
+            <path
+                android:fillColor="@color/white"
+                android:pathData="M9,16.17l-4.17,-4.17L3,13.83L9,19.83L21,7.83L19.59,6.42L9,16.17z" />
+        </vector>
+    </item>
+</layer-list>

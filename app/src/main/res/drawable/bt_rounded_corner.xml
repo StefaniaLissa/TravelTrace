@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners  android:radius="50dp"/>
-    <solid android:color="@color/gray"></solid>
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Shadow layer -->
+    <item>
+        <shape>
+            <corners android:radius="10dp" />
+            <solid android:color="@color/gray" />
+        </shape>
+    </item>
+
+    <!-- Front layer (smaller) -->
+    <item android:bottom="7dp">
+        <shape>
+            <corners android:radius="10dp" /> <!-- Slightly smaller corner radius for better contrast -->
+            <solid android:color="@color/light_gray" />
+        </shape>
+    </item>
+</layer-list>

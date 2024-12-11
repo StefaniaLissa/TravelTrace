@@ -1,8 +1,8 @@
 plugins {
+
+    id("com.google.gms.google-services")
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
     id("kotlin-parcelize")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
@@ -34,10 +34,6 @@ android {
         }
     }
 
-    buildFeatures {
-        viewBinding = true
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -47,6 +43,7 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -61,54 +58,53 @@ android {
 dependencies {
 
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
-    implementation("androidx.activity:activity-compose:1.9.1")
-    implementation(platform("androidx.compose:compose-bom:2024.08.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("com.google.firebase:firebase-crashlytics:19.0.3")
-    implementation("com.google.firebase:firebase-analytics:22.1.0")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
-    implementation(platform("androidx.compose:compose-bom:2024.08.00"))
-    implementation("com.google.android.gms:play-services-maps:19.0.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.4")
-    implementation("androidx.activity:activity:1.9.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.08.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2024.08.00"))
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    implementation("androidx.activity:activity-compose:1.9.3")
+    implementation(platform("androidx.compose:compose-bom:2024.11.00"))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity.v192)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+    implementation(platform(libs.androidx.compose.compose.bom2))
+    implementation(libs.androidx.swiperefreshlayout)
+    androidTestImplementation(platform(libs.androidx.compose.compose.bom2))
+    androidTestImplementation(platform(libs.androidx.compose.compose.bom.v20240800))
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.constraintlayout.v214)
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit)
 
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
-    implementation("com.google.firebase:firebase-storage-ktx:21.0.0")
-    implementation("com.google.firebase:firebase-firestore-ktx:25.1.0")
-    implementation(platform("com.google.firebase:firebase-bom:33.2.0"))
-    implementation("com.google.android.gms:play-services-auth:21.2.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    implementation(libs.material)
+    implementation(libs.firebase.auth.ktx.v2300)
+    implementation(libs.firebase.storage.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.play.services.auth)
+    implementation(libs.play.services.maps)
 
+    implementation(libs.firebase.geofire.android.common)
 
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.lifecycle.lifecycle.runtime.ktx)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
 
-    implementation ("com.google.android.gms:play-services-maps:19.0.0")
-    implementation ("com.google.android.libraries.places:places:3.5.0")
-    implementation ("com.google.maps.android:places-ktx:3.2.0")
+    implementation (libs.play.services.maps)
+    implementation (libs.places)
+    implementation (libs.places.ktx)
 
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
-    implementation ("androidx.exifinterface:exifinterface:1.3.7")
+    implementation (libs.glide)
+    implementation (libs.androidx.exifinterface.v132)
     implementation(kotlin("script-runtime"))
-
+    implementation(libs.okhttp)
 
 }
